@@ -419,7 +419,7 @@ class Button extends Widget {
  * login类接收表单类 调用验证函数后 获取值然后发起请求
  */
 
-// 用来提示信息
+/* // 用来提示信息
 function Controller() {}
 Controller.prototype.success = function(title, msg) {
     console.log(`${title}: ${msg}`)
@@ -460,10 +460,10 @@ Input.prototype.validate = function() {
         this.failure(`${this.name}为空`)
     }
     return this.value
-}
+} */
 
 // 登录
-function LoginController() {}
+// function LoginController() {}
 // LoginController.prototype = Object.create(Controller.prototype)
 // // 重写方法
 // LoginController.prototype.success = function(msg) {
@@ -473,7 +473,7 @@ function LoginController() {}
 //     Controller.prototype.failure.call(this, `login: `, msg)
 // }
 
-LoginController.prototype.validateInputs = function(inputs, cb) {
+/* LoginController.prototype.validateInputs = function(inputs, cb) {
     const isValid = inputs.every(inp=> inp.validate())
     cb(isValid)
 }
@@ -492,6 +492,67 @@ lc.validateInputs([username, password],(isValid)=> {
 
     }
 })
+ */
+
+
+/* class P {
+    constructor() {}
+    foo() {
+        console.log('P.foo');
+    }
+}
+
+class C extends P {
+    constructor() {
+        super()
+    }
+    foo() {
+        super.foo()
+    }
+}
+
+var c1 = new C() 
+c1.foo()
+
+var D = {
+    foo: function() {
+        console.log('D.foo');
+    }
+}
+
+var E = {
+    foo: C.prototype.foo
+}
+Object.setPrototypeOf(E, D)
+
+E.foo() */
+
+let animal = {
+    name: 'Animal',
+    eat() {
+        console.log(`${this.name} eats.`)
+    }
+}
+
+let rabbit = {
+    __proto__: animal,
+    name: 'Rabbit',
+    eat() {
+        super.eat()
+    }
+}
+
+let longEar = {
+    __proto__: rabbit,
+    name: 'Long Ear',
+    eat() {
+        super.eat()
+    }
+}
+
+// longEar.eat()
+
+longEar.eat.call({name: 'a'})
 
 
 

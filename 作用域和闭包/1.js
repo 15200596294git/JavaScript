@@ -1,9 +1,9 @@
-function foo(a) {
-  var b  = a
-  return a + b
-}
+// function foo(a) {
+//   var b  = a
+//   return a + b
+// }
 
-var c = foo( 2 )
+// var c = foo( 2 )
 
 /**
  * 引擎: 我要对foo函数进行RHS引用
@@ -41,7 +41,99 @@ var c = foo( 2 )
 // foo('var b = 3;', 1)
 
 //
-setTimeout('var b = 2', 1000);
-setTimeout(() => {
-  console.log(b)
-}, 2000);
+// setTimeout('var b = 2', 1000);
+// setTimeout(() => {
+//   console.log(b)
+// }, 2000);
+
+// var a = 2;
+
+// (function foo() {
+//   var a = 3
+//   console.log(a);
+// })()
+// 函数表达式只能在他声明的作用域中访问
+// console.log(foo);
+
+// function foo() {
+//   console.log(1);
+// }
+
+// function foo() {
+//   console.log(2);
+// }
+
+// foo() // 2
+// 函数声明的提升，后面的会覆盖前面的
+
+/**
+ * ----------------------------- 作用域闭包
+ */
+/* function foo() {
+  var a = 2
+
+  // foo的内部函数
+  // 引用了foo的内部变量a
+  function bar() {
+    console.log(a);
+  }
+  return bar
+}
+
+var fn = foo()
+// 此时foo的内部函数bar的引用给到了fn
+// 我们在bar函数本身的词法作用域之外调用,它也能正确的访问到变量a
+fn()
+ */
+
+// for(let i = 1; i <=5; i++) {
+//   setTimeout(() => {
+//     console.log(i);
+//   }, i * 1000);
+// }
+
+/* var MyModules = (function () {
+  var modules = {};
+
+  function define(name, deps, impl) {
+    for (var i = 0; i < deps.length; i++) {
+      deps[i] = modules[deps[i]];
+    }
+    modules[name] = impl.apply(impl, deps);
+  }
+
+  function get(name) {
+    return modules[name];
+  }
+
+  return {
+    define,
+    get,
+  }
+})();
+ */
+// modules['bar'] = {hello}
+
+/* function foo() {
+  console.log(a);
+}
+
+function bar() {
+  var a = 3
+  foo()
+}
+var a = 2
+bar() */
+
+
+/**
+ * ----------------------------- 作用于闭包
+ */
+
+/**
+ * ----------------------------- 作用于闭包
+ */
+
+/**
+ * ----------------------------- 作用于闭包
+ */

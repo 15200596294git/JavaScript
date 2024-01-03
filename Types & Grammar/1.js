@@ -60,6 +60,10 @@ if(window.DEBUG) {
 // 应该把0.5+06的和减去0.11,然后取绝对值，如果他们之间的差值在JS中最小差值只能，那就认为这两个数相等
 // 如果超过了，那就不相等
 
+// 返回false，但是正常应该返回true
+// 有时间再研究研究
+isNumberEqual(1000.1 + 2000.2 , 2000.3)  
+
 /* function isNumberEqual(num1, num2) {
   return Math.abs(num1 - num2) < Number.EPSILON
 }
@@ -87,7 +91,7 @@ if(!Number.isSafeInteger) {
 } */
 
 
-var isReady = false
+/* var isReady = false
 function dosomething() {
   if(!isReady) {
     setTimeout(dosomething, 500);
@@ -120,13 +124,13 @@ if(Number.isNaN) {
 // NaN 是JS中唯一一个不等于自身的值
 function isNaN(value) {
   return value !== value
-}
+} */
 
 /**
  * --------------------------------------------- 类型
  */
 
-var a = 1 / 0 // Infinity
+/* var a = 1 / 0 // Infinity
 var b = -1 / 0 // -Infinity
 
 // 无穷除以无穷 为未定义操作，所以结果为NaN
@@ -212,9 +216,35 @@ Infinity - Infinity // NaN
 Infinity * Infinity // Infinity
 Infinity / Infinity // NaN
 
+function foo(x) {
+  x.push(4)
+  // x 1,2,3,4
+
+  // a和x本来是指向[1,2,3,4]值的引用
+  // 现在把x的引用更改到另一个值上，那么a还是原来的值
+  x = [4,5,6]
+  // 此时再更改x，不会影响到原来的a
+  x.push(7)
+  // x 4,5,6,7
+}
+
+var a = [1,2,3]
+foo(a)
+
+var a = {}
+var mysym = Symbol('s')
+a[mysym] = a
+Object.getOwnPropertySymbols(a) */
+
+
+
 /**
- * --------------------------------------------- 类型
+ * --------------------------------------------- 强制类型转换
  */
+var a = 42
+var b = a + '' // 隐式强制类型转换
+var c = String(a) // 显示强制类型转换
+
 
 
 /**

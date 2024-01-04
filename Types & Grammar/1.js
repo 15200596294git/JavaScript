@@ -62,7 +62,7 @@ if(window.DEBUG) {
 
 // 返回false，但是正常应该返回true
 // 有时间再研究研究
-isNumberEqual(1000.1 + 2000.2 , 2000.3)  
+// isNumberEqual(1000.1 + 2000.2 , 2000.3)  
 
 /* function isNumberEqual(num1, num2) {
   return Math.abs(num1 - num2) < Number.EPSILON
@@ -241,11 +241,86 @@ Object.getOwnPropertySymbols(a) */
 /**
  * --------------------------------------------- 强制类型转换
  */
+
+// ToString
+// null // 'null'
+// undefined // 'undefined'
+// true // 'true'
+
 var a = 42
 var b = a + '' // 隐式强制类型转换
 var c = String(a) // 显示强制类型转换
 
 
+// JavaScript中的强制类型转换总是返回标量基本类型
+// 如 字符串、数字和布尔值，不会返回对象和函数
+
+// JSON.stringify不能处理  undefined function symbol和包含循环引用的对象
+JSON.stringify(undefined) // undefined
+JSON.stringify(function() {}) // undefined
+JSON.stringify(Symbol('a')) // undefined
+
+var obj = {
+
+}
+var obj2 = {
+    a: obj
+}
+obj.a = obj2 // 形成了循环引用
+// JSON.stringify(obj) // 报错
+// JSON.stringify(obj2) // 报错
+
+// 对象中遇到undefined Symbol function会忽略该属性值
+// 在数组中遇到undefined Symbol function 该值会变成null
+var obj3 = {
+    a: undefined,
+    b: Symbol(),
+    c: function() {},
+    d: [undefined, Symbol(), function() {}]
+}
+// console.log(JSON.stringify(obj3));
+
+var obj4 = {
+    a: undefined,
+    b: Symbol(),
+    // 对象定义toJSON函数，那么在JSON.stringify时会先调用toJSON
+    // 然后对toJSON返回的值，再进行JSON.stringify,相当于先进行一次处理
+    toJSON() {
+        return {a: 2}
+    }
+}
+// console.log(JSON.stringify(obj4));
+
+// JSON.stringify第二个参数
+var obj5 = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: {
+        e: 1
+    }
+}
+var arr1 = [1,2,3,4]
+// 获取指定的一个或者多个key
+// console.log(JSON.stringify(obj5, ['a'])); // 只返回由键a的值组成的对象
+// console.log(JSON.stringify(arr1, ['0']));
+
+// 传入一个函数
+console.log(JSON.stringify(obj5, function(k,v) {
+    // console.log(k === 'a');
+    // console.log(k,v);
+    console.log(k);
+    // console.log(v);
+    // if(k === undefined) {
+    //     return v
+    // }
+    if(k === 'a') {
+        return 
+    }
+    return v
+    
+
+})
 
 /**
  * --------------------------------------------- 类型

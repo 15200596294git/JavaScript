@@ -435,6 +435,108 @@ s.toString() // Symbol(symbol)
 
 // == 允许再相等比较中进行强制类型转换 而===不允许
 
+// 如果Type(x)是数字，Type(y)是字符串，则返回 x == ToNumber(y)的结果
+// 如果Type(x)是字符串，Type(y)是数字，则返回ToNumber(x) == y 的结果
+// 简单来说就是，两个值进行抽象相等(==,!=)比较时，如果其中一个值的typeof为number，那么就会将另外一个值转为number
+
+1 == true // true
+0 == false // true
+1 == '1' // true
+0 == '0' // true
+var obj = {
+  valueOf() {
+    return 1
+  }
+}
+
+1 == obj // true
+// 其中一个为数字，对另外一个值进行toNumber抽象操作，首先调用valueOf,返回基本类型并且typeof为number，也就是1，1和1相等，返回true
+
+// 其他类型和布尔类型之间的相等比较
+// 如果Type(x)是布尔类型，则返回ToNumber(x) == y 的结果
+// 如果Ytpe(y)是布尔类型，则返回 x == ToNumber(y)的结果
+// 也就是说如果两个值中其中一个值为布尔类型，那么就对布尔类型执行ToNumber抽象操作后再进行比较
+// 其实通过ToNumber抽象操作后，如果能返回基本类型的话那就是走 两个值中其中一个为数字的规则了
+
+var a = '42'
+var b = true
+
+// 其中b为布尔值，对布尔值执行ToNumber抽象操作，获得number 1
+// 此时为 '42' == 1,然后将字符串 '42'执行ToNumber抽象操作，返回number 42
+// 此时 42 == 1, 返回false
+a == b  // false
+
+// null和undefined之间的相等比较
+// 如果x为null,y为undefined,则结果为true
+// 如果x为undefined,y为null,则结果为true
+// 也就是说 null == undefined 和 undefined == null 都为true
+null == undefined // true
+undefined == null // true
+
+null == null // true
+undefined == undefined // true
+
+// null == undefined 和本身，和其他值都不想等
+// undefined == null 和本身，和其他值都不想等
+// 以下都返回false
+null == 0
+null == ''
+null == false
+undefined == 0
+undefined == ''
+undefined == false
+
+// 可以利用上面的特性，使用 == 来判断null和undefined
+// 比如，当前值为null或者undefined时，dosomething
+var value1 = null 
+// 或者value1 == undefined,都是一个意思
+if(value1 == null) {
+  // dosomething
+}
+// 繁琐的写法为
+if(value1 == null && value1 == undefined) {
+  // dosomething
+}
+
+// 对象和非对象之间的相等比较
+// 如果Type(x)是字符串或数字，Type(y)为对象，则返回 x== ToPrimitive(y)的结果
+// 如果Type(x)是对象，Type(y)是字符串或数字，则返回ToPrimitive(x) == y的结果
+// 标量基本类型字符串或者数字和对象类型比较时，对对象类型进行ToPrimitive抽象操作,然后进行比较
+// 然后应该就是走上面的规则，如果一个为数字,另外一个为字符串 // 数字和字符串的比较,对字符串进行ToNumber()抽象操作
+// 或者一个为字符串，另一个也为字符串 // 字符串的比较
+
+var a = 'abc'
+var b = Object(a) // 和new String(a)一样
+
+a === b // false
+a == b // true
+
+// 由于null和undefined没有对应的封装对象，所以会返回一个常规对象 {}
+Object(null)
+Object(undefined)
+
+'0' == false
+// 布尔和其他类型比较的规则，其中一个为布尔，那么对布尔值进行ToNumber抽象操作，此时变成 '0' == 0
+// 此时就是一个为字符串一个为数字, x为字符串时，ToNumber(x) == y
+// 0 == 0
+
+// 抽象关系比较
+// 只限于 <
+// 双方首先调用ToPrimitive,如果结果出现非字符串，根据ToNumber规则将双方强制类型转换为数字进行比较
+
+var a = {b: 42}
+var b = { b: 43}
+
+a < b // false
+a == b // false
+a > b // false
+
+a <= b // true -> !(b < a)
+a >= b // true -> !(b > a)
+
+
+
+
 /**
  * --------------------------------------------- 类型
  */

@@ -372,8 +372,8 @@ console.log([] + 1);
 
 var obj = {
   toString() {
-    return []
-    // return 1
+    // return []
+    return 1
   }
 }
 
@@ -385,7 +385,55 @@ console.log(String(obj));
 // - * / 时会需要将两个操作数都转为number
 // 此时就是内部抽象操作ToNumber，根据规则，也是通过内部抽象操作ToPrimitive依次调用valueOf和toString
 // 如果有一个返回的是基本类型，再对基本类型进行Number()调用，如果两个都不返回基本类型，就会报错
-// 
+
+
+// 有并且仅有一个参数为true，就返回true，否则返回false
+function onlyOne(a,b,c) {
+    return !!((a && !b && !c) || (!a && b && !c) || (!a && !b && c))
+}
+// 利用布尔类型转数字
+function onlyOne2(...args) {
+    let sum = 0
+    args.forEach(arg=> {
+        if(arg) {
+            sum += (!!arg) - 0
+        }
+    })
+
+    return sum === 1
+}
+
+onlyOne2(true, true, true, true)
+onlyOne2(true)
+onlyOne2(true, false)
+onlyOne2(true, false, false)
+onlyOne2([])
+onlyOne2([], false)
+onlyOne2([], false, {})
+
+
+// 隐式强制类型转换为布尔值
+// 1.if(...) 条件判断式
+// 2.for(..;..;..) 语句中的条件判断式(第二个) 
+// 3.while() do...while() 循环中的条件表达式
+// 4.? : 中的条件表达式
+// 5.逻辑运算符 || 和 && 左边的操作数
+
+// && 和 || 返回值不一定时布尔类型，而是两个操作数其中一个的值
+// && 如果第一个值为假值，那就返回第一个值，否则第一个值为真值，那就返回第二个值
+// || 如果第一个值为真值，就返回第一个值，否则第一个值为假值，那就返回第二个值
+
+// a || b -> a ? a : b
+// a && b -> a ? b : a
+
+
+var s = Symbol('symbol')
+s.toString() // Symbol(symbol)
+// s + '' // 报错
+// Number(s) 报错
+// s - 0 报错
+
+// == 允许再相等比较中进行强制类型转换 而===不允许
 
 /**
  * --------------------------------------------- 类型

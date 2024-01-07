@@ -145,9 +145,10 @@ function myReject(err, ms = 0) {
 // })
 // console.log('main');
 
-// Promise.race()
-// Promise.race中，如果在reject之前已经有resolve，那么这个Promise就已经决议了，那么reject会被忽略
-// 如果是在之前，那么就会立即抛出错误
+// Promise.race([])
+// Promise.race中，第一个被决议的promise会作为Promise.race的结果，无论这个结果是完成还是拒绝
+
+// Promise.race([myReject(1, 100), myResolve(2, 200)]).then((res)=> {console.log('res', res)}, (err)=> {console.log('err', err);})
 
 // 如果Promise.race传入了一个或者多个立即值，那么在数组最前面的那个立即值回是返回的Promise的值
 // Promise.race([0,myResolve(1), 2, 3 ])
@@ -353,14 +354,92 @@ if(!Promise.map) {
     }
 }
 
-console.time('a')
-Promise.map([ myResolve(1, 1000), myResolve(2, 2000), myResolve(3, 3000)  ], (p, i)=> {
-    return p.then(val=> {
-        return val * 2
-    })
-})
-.then(res=> {
-    console.timeEnd('a')
-    console.log('res', res)
-} )
-.catch(err=> console.log('err', err))
+// console.time('a')
+// Promise.map([ myResolve(1, 1000), myResolve(2, 2000), myResolve(3, 3000)  ], (p, i)=> {
+//     return p.then(val=> {
+//         return val * 2
+//     })
+// })
+// .then(res=> {
+//     console.timeEnd('a')
+//     console.log('res', res)
+// } )
+// .catch(err=> console.log('err', err))
+
+// function spread(fn) {
+//     return Function.prototype.apply.bind(fn, null)
+// }
+
+// function foo(arg1, arg2)  {
+//     console.log(arg1, arg2);
+// }
+
+// spread(foo)([1,2])
+
+
+// 将错误优先的回调函数风格，转为Promise风格
+function promisory(fn) {
+    return function(...args) {
+        return new Promise((resolve, reject)=> {
+            fn.call(this, ...args, (err,data)=> {
+                if(!err) {
+                    resolve(data)
+                } else {
+                    reject(err)
+                }
+            })
+        })
+    }
+}
+
+// function read(name, encode, cb) {
+//     // console.log(name, encode);
+//     const err = '读取文件错误'
+//     // const err = null
+//     // const data = null
+//     const data = '文件内容'
+//     cb(err, data)
+// }
+
+// // read('1.txt', 'utf-8', (err,data)=> {
+// //     if(!err) {
+// //         console.log('data', data);
+// //     } else {
+// //         console.log('err', err);
+// //     }
+// // })
+
+// const promisyRead = promisory(read)
+// promisyRead('1.txt', 'utf-8')
+// .then((res)=> console.log('res', res))
+// .catch(err=> console.error('err', err))
+
+
+
+
+
+
+
+
+
+
+/**
+ * 生成器
+ */
+var x = 1
+function *foo() {
+    x++
+    yield; // 暂停
+    console.log('x',x);
+}
+function bar() {
+    x++
+}
+
+var it = foo()
+it.next()
+bar()
+it.next()
+
+
+

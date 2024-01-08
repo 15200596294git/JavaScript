@@ -86,7 +86,6 @@ console.log(1); */
  * Promise
  */
 
-
 // 第二个then没有传递fulfilled和rejected函数，fulfilled会默认返回上一个Promise的返回值，rejected会默认继续抛出错误值
 // Promise.reject(1)
 // .then()
@@ -111,23 +110,22 @@ console.log(1); */
 // Promise.all
 
 function waitMs(value, ms, isResolve) {
-    return new Promise((resolve, reject)=> {
-        setTimeout(() => {
-            const fn = isResolve ? resolve : reject
-            fn(value)
-        }, ms);
-    })
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const fn = isResolve ? resolve : reject;
+      fn(value);
+    }, ms);
+  });
 }
 function myResolve(value, ms = 0) {
-    return waitMs(value, ms, true)
+  return waitMs(value, ms, true);
 }
 function myReject(err, ms = 0) {
-    return waitMs(err, ms, false)
+  return waitMs(err, ms, false);
 }
 
 // Promise.all()后面的then中的第一个参数是一个数组，数组的每一项是按照Promise.all([])传入的数组的Promise的结果的顺序来的
 // 比如传入两个Promise，第一个需要1s后返回，返回值为1，第二个Promise只需要100ms返回，返回值为2，此时datas[0]还是为1，data[1]为2
-
 
 // 如果其中一个Promise发生了reject，那么会直接走到catch, err的值为出错的内容(不会是一个数组，因为只要有一个reject，该promise就已经决议了，直接到catch)
 // Promise.all([myResolve(1, 5000), myReject(2, 100), myReject(3, 2000) ])
@@ -141,7 +139,7 @@ function myReject(err, ms = 0) {
 // Promise.all([1,2])
 // .then((datas)=> {
 //     console.log(datas);
-//     console.log('promise') 
+//     console.log('promise')
 // })
 // console.log('main');
 
@@ -193,35 +191,37 @@ function myReject(err, ms = 0) {
 // 实现Promise.none
 // 和Promise.all相反，所有Promise都拒绝即完成
 // 如果有一个Promise成功，那么就是拒绝
-if(!Promise.none) {
-    Promise.none = function(promises) {
-        if(!Array.isArray(promises)) {
-            throw Error('Promise.none(...)的参数必须为数组')
-        }
-
-        if(!promises.length) {
-            return new Promise((resolve)=> {
-                resolve()
-            })
-        }
-
-        return new Promise((resolve, reject)=> {
-            const errs = []
-            let count = 0
-
-            promises.forEach((p, i)=> {
-                Promise.resolve(p).then((res)=> {
-                    reject(res)
-                }).catch((err)=> {
-                    errs[i] = err
-                    count++
-                    if(count === promises.length) {
-                        resolve(errs)
-                    }
-                })
-            })
-        })
+if (!Promise.none) {
+  Promise.none = function (promises) {
+    if (!Array.isArray(promises)) {
+      throw Error("Promise.none(...)的参数必须为数组");
     }
+
+    if (!promises.length) {
+      return new Promise((resolve) => {
+        resolve();
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      const errs = [];
+      let count = 0;
+
+      promises.forEach((p, i) => {
+        Promise.resolve(p)
+          .then((res) => {
+            reject(res);
+          })
+          .catch((err) => {
+            errs[i] = err;
+            count++;
+            if (count === promises.length) {
+              resolve(errs);
+            }
+          });
+      });
+    });
+  };
 }
 
 // Promise.none()
@@ -235,96 +235,90 @@ if(!Promise.none) {
 //     console.timeEnd('a')
 // })
 
-
-
 // 实现Promise.any
-// 
-if(!Promise.any) {
-    Promise.any = function(promises) {
-        if(!Array.isArray(promises)) {
-            throw Error('Promise.any(...)的参数必须为数组')
-        }
-
-        if(!promises.length) {
-            return new Promise((resolve)=> {
-                resolve()
-            })
-        }
-
-        return new Promise((resolve, reject)=> {
-            const errs = []
-            let count = 0
-    
-            promises.map((p, i)=> {
-                Promise.resolve(p)
-                .then(res=> {
-                    resolve(res)
-                })
-                .catch(err=> {
-                    errs[i] = err
-                    count++
-                    if(count === promises.length) {
-                        resolve(errs)
-                    }
-                })
-            })
-        })
+//
+if (!Promise.any) {
+  Promise.any = function (promises) {
+    if (!Array.isArray(promises)) {
+      throw Error("Promise.any(...)的参数必须为数组");
     }
-}
 
+    if (!promises.length) {
+      return new Promise((resolve) => {
+        resolve();
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      const errs = [];
+      let count = 0;
+
+      promises.map((p, i) => {
+        Promise.resolve(p)
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            errs[i] = err;
+            count++;
+            if (count === promises.length) {
+              resolve(errs);
+            }
+          });
+      });
+    });
+  };
+}
 
 // 实现Promise.first
 
-
-
 // 实现Promise.last
-if(!Promise.last) {
-    Promise.last = function(promises) {
-        if(!Array.isArray(promises)) {
-            throw Error('Promise.last(...)的参数必须为数组')
-        }
-
-        if(!promises.length) {
-            return new Promise((resolve)=> {
-                resolve()
-            })
-        }
-
-        return new Promise((resolve, reject)=> {
-            const errs = []
-
-            let count = 0 
-            let previousRsolved = null // 上一个resolve的值
-
-            promises.forEach((p,i)=> {
-                Promise.resolve(p)
-                .then(
-                    (res)=> {
-                    previousRsolved = res
-                    count ++
-                    if(count === promises.length) {
-                        resolve(previousRsolved)
-                    }
-                },
-                    (err)=> {
-                        errs[i] = err
-                        count ++
-                        if(count === promises.length) {
-                            if(previousRsolved) {
-                                resolve(previousRsolved)
-                            } else {
-                                reject(errs)
-                            }
-                        }
-                    }
-                )
-                .catch((err)=> {
-                    console.error('err', err)
-                })
-            })
-
-        })
+if (!Promise.last) {
+  Promise.last = function (promises) {
+    if (!Array.isArray(promises)) {
+      throw Error("Promise.last(...)的参数必须为数组");
     }
+
+    if (!promises.length) {
+      return new Promise((resolve) => {
+        resolve();
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      const errs = [];
+
+      let count = 0;
+      let previousRsolved = null; // 上一个resolve的值
+
+      promises.forEach((p, i) => {
+        Promise.resolve(p)
+          .then(
+            (res) => {
+              previousRsolved = res;
+              count++;
+              if (count === promises.length) {
+                resolve(previousRsolved);
+              }
+            },
+            (err) => {
+              errs[i] = err;
+              count++;
+              if (count === promises.length) {
+                if (previousRsolved) {
+                  resolve(previousRsolved);
+                } else {
+                  reject(errs);
+                }
+              }
+            }
+          )
+          .catch((err) => {
+            console.error("err", err);
+          });
+      });
+    });
+  };
 }
 
 // 全部拒绝
@@ -344,14 +338,14 @@ if(!Promise.last) {
 // promises.map(p=> {})
 
 // Promise.map实现
-if(!Promise.map) {
-    Promise.map = function(promises, cb) {
-        return Promise.all(
-            promises.map((p, i)=> {
-                return cb(Promise.resolve(p), i)
-            })
-        )
-    }
+if (!Promise.map) {
+  Promise.map = function (promises, cb) {
+    return Promise.all(
+      promises.map((p, i) => {
+        return cb(Promise.resolve(p), i);
+      })
+    );
+  };
 }
 
 // console.time('a')
@@ -376,20 +370,19 @@ if(!Promise.map) {
 
 // spread(foo)([1,2])
 
-
 // 将错误优先的回调函数风格，转为Promise风格
 function promisory(fn) {
-    return function(...args) {
-        return new Promise((resolve, reject)=> {
-            fn.call(this, ...args, (err,data)=> {
-                if(!err) {
-                    resolve(data)
-                } else {
-                    reject(err)
-                }
-            })
-        })
-    }
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      fn.call(this, ...args, (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  };
 }
 
 // function read(name, encode, cb) {
@@ -414,15 +407,6 @@ function promisory(fn) {
 // .then((res)=> console.log('res', res))
 // .catch(err=> console.error('err', err))
 
-
-
-
-
-
-
-
-
-
 /**
  * 生成器
  */
@@ -441,55 +425,174 @@ function promisory(fn) {
 // bar()
 // it.next()
 
-function *foo(x) {
-    var y = x * (yield)
-    return y
-}
+// function* foo(x) {
+//   var y = x * (yield);
+//   return y;
+// }
 
-var it = foo(6)
-var res1 = it.next()
-var res2 = it.next(7)
-console.log(res1.value, res2);
+// var it = foo(6);
+// var res1 = it.next();
+// var res2 = it.next(7);
+// console.log(res1.value, res2);
 
 // 调用生生成器函数后会生产一个迭代器
 // 迭代器调用第一个next时，生成器函数开始运行，所以第一个next不需要传入任何值，传了值也会被忽略
 // 第一个next调用后，如果生成器函数内部有yield,此时会把yield后面的值返回给第一个next，
 // 此时控制权又交给到迭代器，然后这个时候调用next的时候可以传入值，生成器函数可以接收它了
 
-
 // 接收一个迭代器，返回一个函数，每次调用返回的函数迭代器向前走一步
 
-var a = 1;
-var b = 2;
-function *foo() {
- a++;
- yield;
- b = b * a;
- a = (yield b) + 3;
+// var a = 1;
+// var b = 2;
+// function* foo() {
+//   a++;
+//   yield;
+//   b = b * a;
+//   a = (yield b) + 3;
+// }
+// function* bar() {
+//   b--;
+//   yield;
+//   a = (yield 8) + b;
+//   b = a * (yield 2); // 仔细研究，a的值
+// }
+
+// function step(gen) {
+//   var it = gen();
+//   var last;
+//   return function () {
+//     // 不管yield出来的是什么，下一次都把它原样传回去！
+//     last = it.next(last).value;
+//   };
+// }
+
+// var s1 = step(foo);
+// var s2 = step(bar);
+
+// s2(); // b 1
+// s2(); //
+// s1(); // a 2
+// s2(); // a 9
+// s1(); // b 9
+// s1(); // a 12
+// s2(); // b 24
+
+// var a = 1
+// var b = 2
+// function *g() {
+//   return b * (yield)
+// }
+// var it = g()
+// it.next()
+// b = 4
+// 上一步已经将b改为4了，按道理应该是 4 * 1 = 4,应该返回4
+// 但是却返回了2，在暂停的时候b的值就已经固定了，改变b无效
+// 相当于进行了一次赋值，由于是标量基本类型，直接是拿到值
+// it.next(1) // {value: 2, done: true}
+
+// 试试改为引用，然后改变引用的值看看
+
+// var a = 1
+// var obj = {
+//   valueOf() {
+//     return 2
+//   },
+// }
+// function *g() {
+//   return obj.a * (yield)
+// }
+// var it = g()
+// it.next()
+// obj.valueOf = function() {
+//   return 4
+// }
+// it.next(1) // 是4，说明很有可能是做了赋值操作
+
+// var a = []
+// var it = a[Symbol.iterator]() // 获取数组的迭代器
+
+// 生成器+Promise
+
+// function* main() {
+//   const text = yield myResolve(1, 500);
+//   console.log("text", text);
+// }
+
+// const it = main();
+// const p = it.next().value;
+// p.then((res) => {
+//   it.next(res);
+// }).catch((err) => {
+//   it.throw(err);
+// });
+
+// function run(gen) {
+//   var args = [].slice.call(arguments, 1),
+//     it;
+//   // 在当前上下文中初始化生成器
+//   it = gen.apply(this, args);
+//   // 返回一个promise用于生成器完成
+//   return Promise.resolve().then(function handleNext(value) {
+//     // 对下一个yield出的值运行
+//     var next = it.next(value);
+
+//     return (function handleResult(next) {
+//       // 生成器运行完毕了吗？
+//       if (next.done) {
+//         return next.value;
+//       }
+//       // 否则继续运行
+//       else {
+//         return Promise.resolve(next.value).then(
+//           // 成功就恢复异步循环，把决议的值发回生成器
+//           handleNext,
+//           // 如果value是被拒绝的 promise，
+//           // 就把错误传回生成器进行出错处理
+//           function handleErr(err) {
+//             return Promise.resolve(it.throw(err)).then(handleResult);
+//           }
+//         );
+//       }
+//     })(next);
+
+//   });
+
+// }
+
+function run(gen, ...args) {
+  // const it = g.apply(this, args);
+  var it = gen()
+
+  let previousValue
+  return Promise.resolve().then(function handleNext(value) {
+    // console.log(
+      previousValue = it.next()
+    // );
+    // previousValue = it.next()
+
+    if (previousValue.done) {
+      console.log('done', previousValue);
+      return previousValue.value;
+    } else {
+      return Promise.resolve(previousValue).then(handleNext);
+    }
+  });
 }
-function *bar() {
- b--;
- yield;
- a = (yield 8) + b;
- b = a * (yield 2); // 仔细研究，a的值
-} 
 
-function step(gen) {
-  var it = gen();
-  var last;
-  return function() {
-  // 不管yield出来的是什么，下一次都把它原样传回去！
-  last = it.next( last ).value;
-  };
- }
+function *g() {
+  // 同步
+  yield myResolve(1, 1000)
+  console.log('1');
+  yield myResolve(2, 2000)
+  console.log('2');
+  yield myResolve(3, 3000)
+  console.log('3');
+  return myResolve(4, 5000)
+}
 
- var s1 = step( foo );
- var s2 = step( bar ); 
-
-s2() // b 1
-s2() // 
-s1() // a 2
-s2() // a 9
-s1() // b 9
-s1() // a 12
-s2() // b 24
+// console.time('a')
+run(g)
+// .then((res) => {
+//   console.log("res", res);
+//   console.timeEnd('a')
+// });

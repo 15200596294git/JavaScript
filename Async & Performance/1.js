@@ -457,3 +457,39 @@ console.log(res1.value, res2);
 // 此时控制权又交给到迭代器，然后这个时候调用next的时候可以传入值，生成器函数可以接收它了
 
 
+// 接收一个迭代器，返回一个函数，每次调用返回的函数迭代器向前走一步
+
+var a = 1;
+var b = 2;
+function *foo() {
+ a++;
+ yield;
+ b = b * a;
+ a = (yield b) + 3;
+}
+function *bar() {
+ b--;
+ yield;
+ a = (yield 8) + b;
+ b = a * (yield 2); // 仔细研究，a的值
+} 
+
+function step(gen) {
+  var it = gen();
+  var last;
+  return function() {
+  // 不管yield出来的是什么，下一次都把它原样传回去！
+  last = it.next( last ).value;
+  };
+ }
+
+ var s1 = step( foo );
+ var s2 = step( bar ); 
+
+s2() // b 1
+s2() // 
+s1() // a 2
+s2() // a 9
+s1() // b 9
+s1() // a 12
+s2() // b 24

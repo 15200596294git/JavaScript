@@ -426,20 +426,34 @@ function promisory(fn) {
 /**
  * 生成器
  */
-var x = 1
-function *foo() {
-    x++
-    yield; // 暂停
-    console.log('x',x);
-}
-function bar() {
-    x++
+// var x = 1
+// function *foo() {
+//     x++
+//     yield; // 暂停
+//     console.log('x',x);
+// }
+// function bar() {
+//     x++
+// }
+
+// var it = foo()
+// it.next()
+// bar()
+// it.next()
+
+function *foo(x) {
+    var y = x * (yield)
+    return y
 }
 
-var it = foo()
-it.next()
-bar()
-it.next()
+var it = foo(6)
+var res1 = it.next()
+var res2 = it.next(7)
+console.log(res1.value, res2);
 
+// 调用生生成器函数后会生产一个迭代器
+// 迭代器调用第一个next时，生成器函数开始运行，所以第一个next不需要传入任何值，传了值也会被忽略
+// 第一个next调用后，如果生成器函数内部有yield,此时会把yield后面的值返回给第一个next，
+// 此时控制权又交给到迭代器，然后这个时候调用next的时候可以传入值，生成器函数可以接收它了
 
 

@@ -559,40 +559,123 @@ function promisory(fn) {
 
 // }
 
-function run(gen, ...args) {
-  // const it = g.apply(this, args);
-  var it = gen()
+// function run(gen, ...args) {
+//   // const it = g.apply(this, args);
+//   var it = gen();
 
-  let previousValue
-  return Promise.resolve().then(function handleNext(value) {
-    // console.log(
-      previousValue = it.next()
-    // );
-    // previousValue = it.next()
+//   let previousValue;
+//   return Promise.resolve().then(function handleNext(value) {
+//     // console.log(
+//     previousValue = it.next();
+//     // );
+//     // previousValue = it.next()
 
-    if (previousValue.done) {
-      console.log('done', previousValue);
-      return previousValue.value;
-    } else {
-      return Promise.resolve(previousValue.value).then(handleNext);
+//     if (previousValue.done) {
+//       console.log("done", previousValue);
+//       return previousValue.value;
+//     } else {
+//       return Promise.resolve(previousValue).then(handleNext);
+//     }
+//   });
+// }
+
+function run(g, ...args) {
+  var it = g.apply(this, args)
+
+  return Promise.resolve().then(function handleNext(val) {
+    var next = it.next(val)
+
+    if(next.done) {
+      return next.value
     }
-  });
+    
+    return Promise.resolve(next.value).then(
+      handleNext,
+      (err)=> {
+        return Promise.resolve(it.throw(err)).then(handleNext)
+      }
+    )
+  })
 }
 
-function *g() {
+
+
+
+
+
+
+
+function* g() {
   // 同步
-  yield myResolve(1, 500)
-  console.log('1');
-  yield myResolve(2, 500)
-  console.log('2');
-  yield myResolve(3, 1000)
-  console.log('3');
-  return myResolve(4, 1000)
+  yield myResolve(1, 1000);
+  console.log("1");
+  yield myResolve(2, 2000);
+  console.log("2");
+  yield myResolve(3, 3000);
+  console.log("3");
+  return myResolve(4, 5000);
+}
+
+// run(g);
+
+// var res = []
+
+function handleNext(it, val) {
+  var next = it.next(val)
+  if(next.done) {
+    return next.value
+  }
+
+  return Promise.resolve(next.value).then((res)=> handleNext(it, res))
+}
+
+function runAll(gens) {
+  var its = gens.map(g=> g())
+  var res = []
+  return its.reduce((p, it, i)=> {
+    return p.then(()=> {
+      return handleNext(it)
+    }).then((data)=> {
+      res.push(data)
+    }) 
+  }, Promise.resolve())
+  .then(()=> {
+    return res
+  })
+}
+
+runAll(
+  [function *() {
+    var data = yield myResolve(1, 2000)
+    return data
+  },
+  function *() {
+    var data = yield myResolve(2, 500)
+    return data
+  },]
+).then(res=> {
+  console.log('res', res)
+})
+
+function all(ps) {
+  const res = []
+
+  return ps.reduce((p1, p2)=> {
+    return Promise.resolve(p1).then((data)=> {
+      res.push(data)
+      return p2
+    })
+  }).then(()=> {
+    return res
+  })
+  
 }
 
 console.time('a')
-run(g)
-.then((res) => {
-  console.log("res", res);
+all([
+  myResolve(1, 4000),
+  myResolve(2, 2000),
+]).then(data=> {
+  console.log('data',data)
   console.timeEnd('a')
-});
+})

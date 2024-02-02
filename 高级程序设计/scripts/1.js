@@ -82,4 +82,18 @@
  * parseFloat 和parseInt类似,只不过多解析一个小数点
  */
 
-console.log(parseFloat('.1')); // 0.1
+// console.log(parseFloat('.1')); // 0.1
+
+/**
+ * String()
+ * 1.如果值有toString()方法，则调用该方法，如果得到的是一个基本类型，那么就将基本类型变成字符串，如果不是基本类型就会报错
+ * 2.如果值是null,返回'null'
+ * 3.如果值是undefined,返回'undefined'
+ */
+
+// var obj = {
+//   toString() {
+//     return true
+//   }
+// }
+console.log(String(undefined))

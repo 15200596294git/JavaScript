@@ -574,25 +574,25 @@ function run(gen, ...args) {
       console.log('done', previousValue);
       return previousValue.value;
     } else {
-      return Promise.resolve(previousValue).then(handleNext);
+      return Promise.resolve(previousValue.value).then(handleNext);
     }
   });
 }
 
 function *g() {
   // 同步
-  yield myResolve(1, 1000)
+  yield myResolve(1, 500)
   console.log('1');
-  yield myResolve(2, 2000)
+  yield myResolve(2, 500)
   console.log('2');
-  yield myResolve(3, 3000)
+  yield myResolve(3, 1000)
   console.log('3');
-  return myResolve(4, 5000)
+  return myResolve(4, 1000)
 }
 
-// console.time('a')
+console.time('a')
 run(g)
-// .then((res) => {
-//   console.log("res", res);
-//   console.timeEnd('a')
-// });
+.then((res) => {
+  console.log("res", res);
+  console.timeEnd('a')
+});

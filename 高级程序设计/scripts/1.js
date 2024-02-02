@@ -96,4 +96,34 @@
 //     return true
 //   }
 // }
-console.log(String(undefined))
+// console.log(String(undefined))
+
+/**
+ * ++,--可以应用所有值，规则如下
+ * 1.应用于有效数字字符串，转为数字再执行操作
+ * 2.应有于无效数字字符串,转为NaN再进行操作(不过NaN的+或者-都会返回NaN)
+ * 3.应用于false时，转换为0再执行操作
+ * 4.应用于true时，转换为1再执行操作
+ * 5.应用于浮点数时，由于是number类型，直接执行操作
+ * 6.应用于对象，先valueOf再toString,如果是基本类型就走上面的操作，如果都不是基本类型就会报错
+ */
+// var a = '1'
+// var b = '1a'
+// var c = 'a1'
+// var d = false
+// var e = true
+// var f = {}
+// console.log(++a);
+// console.log(++b);
+// console.log(++c);
+// console.log(++d);
+// console.log(++e);
+
+// console.log(++f);
+
+/**
+ * Number() ++,--,+,-
+ */
+
+
+

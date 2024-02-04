@@ -13,6 +13,25 @@
 // 其中Number可以用作任何数据类型，另外两个专门用于把字符串转成数值
 
 /**
+ * ECMAScript 标准定义了8中数据类型
+ * Boolean
+ * null
+ * undefined
+ * Number
+ * Bigint
+ * String
+ * Symbol
+ * Object
+ *  Array
+ *  Function
+ *  Date
+ *  RegExp
+ *  Math
+ *  Error
+ */
+
+
+/**
  * Number()函数转换规则, 一元+操作符和Number()函数相同
  * 1.如果是Boolean值，true和false将分别转换为1和0
  * 2.如果是数字，只是简单的传入和返回
@@ -200,47 +219,31 @@ var object = {}, array = [], fun = ()=> {}, date = new Date(), regExp = new RegE
 var big = BigInt(1)
 var sym  = Symbol()
 // 以下全都返回true 
-console.log(
-  String(object) === object.toString() , '\n',
-  String(array) === array.toString() , '\n',
-  String(fun) === fun.toString() , '\n',
-  String(date) === date.toString() , '\n',
-  String(math) === math.toString() , '\n',
-  String(error) === error.toString() , '\n',
-  // 基本类型
-  String(null) === 'null', '\n',
-  String(undefined) === 'undefined', '\n',
-  String(true) === true.toString(), '\n',
-  String(false) === false.toString(), '\n',
-  String(NaN) === NaN.toString(), '\n',
-  String(Infinity) === Infinity.toString(), '\n',
-  String(-Infinity) === -Infinity.toString(), '\n',
-  String(0) === 'null', (0).toString(),
-  String(big) === big.toString(), '\n',
-  String(sym) === sym.toString(), '\n',
+// console.log(
+//   String(object) === object.toString() , '\n',
+//   String(array) === array.toString() , '\n',
+//   String(fun) === fun.toString() , '\n',
+//   String(date) === date.toString() , '\n',
+//   String(math) === math.toString() , '\n',
+//   String(error) === error.toString() , '\n',
+//   // 基本类型
+//   String(null) === 'null', '\n',
+//   String(undefined) === 'undefined', '\n',
+//   String(true) === true.toString(), '\n',
+//   String(false) === false.toString(), '\n',
+//   String(NaN) === NaN.toString(), '\n',
+//   String(Infinity) === Infinity.toString(), '\n',
+//   String(-Infinity) === -Infinity.toString(), '\n',
+//   String(0) === 'null', (0).toString(),
+//   String(big) === big.toString(), '\n',
+//   String(sym) === sym.toString(), '\n',
 
 
-  // String('1') === 'null', '\n',
-)
+//   // String('1') === 'null', '\n',
+// )
 
 
-/**
- * ECMAScript 标准定义了8中数据类型
- * Boolean
- * null
- * undefined
- * Number
- * Bigint
- * String
- * Symbol
- * Object
- *  Array
- *  Function
- *  Date
- *  RegExp
- *  Maht
- *  Error
- */
+
 
 /**
  * + - * / 中，如果其中一个操作数为NaN，那么结果就会是NaN
@@ -279,3 +282,76 @@ console.log(
 
 
 
+var und = undefined, nul = null, tr = true, num = 1, bigI = 1n, str = ''
+sym = Symbol()
+function isUndefined(value) {
+  return typeof value === 'undefined'
+}
+function isNull(value) {
+  // 由于typeof null 会返回'object',所以单靠一个typeof还是判断不了是否为null
+  // 从布尔类型的知识得知，有7个值通过Boolean()可以转为false, null undefined NaN +0 -0 '' false
+  // 其中只有有null的typeof会返回 'object'
+  // 也就可以从Boolean()的角度来判断，先把范围限制为布尔类型为false，并且typeof 返回 'object'
+  // 那么就可以任务这个值是null（记住，Boolean()只接受7个指定值才返回false，并且只有null的typeof返回'object'）
+  // return typeof value === 'null'
+
+  // Boolean()值 === false并且 typeof === 'object'
+  // return Boolean(value) === false && typeof value === 'object'
+
+  // &&的运算逻辑是如果两个值为true返回true，否则返回false
+  // 如果第一个值为false，那么就已经决定了运算结果，所以无需再走下去，直接返回第一个值
+  // 否则如果第一个值为true，那么还无法决定运算结果，所以直接返回第二个值
+  // &&短路逻辑，如果第一个值为false，返回第一个值
+  // 如果第一个值为true，返回第二个值
+  // 把(!value)看作一个整体，!value理解为 Boolean(value) === false
+  // return (!value) && typeof value === 'object'
+  return Boolean(value) === false && typeof value === 'object'
+}
+function isBoolean(value) {
+  return typeof value === 'boolean'
+}
+function isNumber(value) {
+  return typeof value === 'number'
+}
+function isBigint(value) {
+  return typeof value === 'bigint'
+}
+function isString(value) {
+  return typeof value === 'string'
+}
+function isSymbol(value) {
+  return typeof value === 'symbol'
+}
+
+console.log(
+isUndefined(und),
+isNull(nul),
+isBoolean(tr),
+isNumber(num),
+isBigint(bigI),
+isString(str),
+isSymbol(sym))
+
+
+true && true // true
+true && false // false
+false && false // false
+false && true // false
+
+var a = false, b =  1
+a && b // false
+b && a // false
+
+// function isNull(value) {
+//   // isFalse value === false !value
+//   // Boolean(value), true -> false , false -> true
+//   // Boolean()只有7个值转为false，然后取反，也就是说只有那7个值返回true
+//   // 如果value属于那7个假值中的一个，!value就属于true
+//   // 否则都为false
+//   // 也就是说只有传入的值是7个假值中的一个，!value返回true
+//   // 不过此时知识把范围缩小到了7个假值，还需要另外一个条件
+//   // 此时再用&&,
+//   // &&需要两个值都为true返回true，否则返回false
+//   return Boolean(value) === false && typeof value === 'object'
+//   // return !value && typeof value === 'object'
+// }

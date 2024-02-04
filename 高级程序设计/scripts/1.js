@@ -125,5 +125,157 @@
  * Number() ++,--,+,-
  */
 
+/**
+ * 按位非 ~ 操作数的负值减1
+ * 按位与 & 二进制位数上两个操作数都为1就返回1，否则返回0
+ * 按位或 | 二进制位数上两个操作数其中一个为1就返回1，否则返回0
+ * 按位异或 二进制位数上，如果两个操作数一样就返回0，否则返回1
+ */
+
+// console.log(~5); // -6
+// console.log(~0); // -1
+// console.log(~NaN); // -1
+// console.log(~Infinity); // -1
+
+// console.log(1 & 2) // 1 10 -> 0
+// console.log(1 | 2); // 1 10 -> 11 -> 3
+// console.log(1 ^ 2); // 1 10 -> 11 -> 3
+
+
+/**
+ * 布尔操作符
+ * 逻辑非 !
+ * 1.!! 和 Boolean()作用相同
+ * 逻辑与 &&
+ * 1.逻辑与属于短路操作，如果第一个操作数能够决定结果，那就不会对第二个操作数求值
+ *   (逻辑与是如果两个值为true，返回true，否则返回false。如果第一个操作数是上述6个假值中的某一个，那么就返回这个操作数(因为它已经决定了结果)，否则就返回第二个操作数)
+ * 逻辑或 ||
+ * 1.逻辑或属于短路操作，如果
+ * （其中一个为true就返回true，否则返回false，如果第一个值不是上述6个假值中的某一个(是一个真值)，那就直接返回该结果，否则是上述假值中的一个，那就返回第二个操作数）
+ * null undefined NaN 0 '' false JavaScript中的6个假值
+ */
+
+/**
+ * 乘法 *
+ * 1.如果一个操作数是NaN，结果是NaN
+ * 2.如果Infinity与0相乘，则结果是NaN
+ * 3.如果Infinity与非0数值相乘，结果是Infinity或者-Infinity
+ * 4.如果Infinity与Infinity相乘，结果是Infinity
+ * 5.如果操作数不是数值，调用Number()之后再执行以上操作
+ * 
+ * 除法 /
+ * 1.如果一个操作数是NaN,结果是NaN
+ * 2.如果Infinity被Infinity除，结果是NaN
+ * 3.0/0, 结果是NaN
+ * 4.非0有限数 / 0，结果是Infinity或-Infinity
+ * 5.非0数值/Infinity,结果是Infinity或-Infinity
+ */
+
+/**
+ * 例举JavaScript中的几个特殊值
+ * null null
+ * undefined undefined
+ * number NaN Infinity -Infinity
+ * NaN: 计算的时候无法计算成一个数值，就用NaN表示
+ * Infinity: 这个值超出了JavaScript所能表示的数值的范围
+ */
+
+
+
+/**
+ * String()
+ *  1.如果是Object类型，就直接调用Object的toString()函数
+ *  2.如果是基本类型
+ *   2.1null 返回 'null'
+ *   2.2undefined 返回 'undefined'
+ *   2.3其余的基本类型,也都是直接调用toString()函数
+ * Number()
+ * 
+ */
+
+/**
+ * String() 猜想验证
+ */
+var object = {}, array = [], fun = ()=> {}, date = new Date(), regExp = new RegExp(), math = Math, error = new Error()
+var big = BigInt(1)
+var sym  = Symbol()
+// 以下全都返回true 
+console.log(
+  String(object) === object.toString() , '\n',
+  String(array) === array.toString() , '\n',
+  String(fun) === fun.toString() , '\n',
+  String(date) === date.toString() , '\n',
+  String(math) === math.toString() , '\n',
+  String(error) === error.toString() , '\n',
+  // 基本类型
+  String(null) === 'null', '\n',
+  String(undefined) === 'undefined', '\n',
+  String(true) === true.toString(), '\n',
+  String(false) === false.toString(), '\n',
+  String(NaN) === NaN.toString(), '\n',
+  String(Infinity) === Infinity.toString(), '\n',
+  String(-Infinity) === -Infinity.toString(), '\n',
+  String(0) === 'null', (0).toString(),
+  String(big) === big.toString(), '\n',
+  String(sym) === sym.toString(), '\n',
+
+
+  // String('1') === 'null', '\n',
+)
+
+
+/**
+ * ECMAScript 标准定义了8中数据类型
+ * Boolean
+ * null
+ * undefined
+ * Number
+ * Bigint
+ * String
+ * Symbol
+ * Object
+ *  Array
+ *  Function
+ *  Date
+ *  RegExp
+ *  Maht
+ *  Error
+ */
+
+/**
+ * + - * / 中，如果其中一个操作数为NaN，那么结果就会是NaN
+ * 
+ * +
+ * a.如果其中一个为字符串，那么会用toString()将另外一个值也转为字符串，并且将它们连接起来
+ * b.如果双方都是BigInt,则执行BigInt加法。如果一方是BigInt而另一方不是，会抛出 TypeError.
+ * c.否则，双方都会被转换为数字，执行数字加法 
+ * 1. 1 + null
+ * 2. 1 + undefined
+ * 3. 1 + NaN
+ * 4. 1 + Infinity
+ * 5. 1 + -Infinity
+ * 
+ * -
+ * * 1. - + null
+ * 2. 1 - undefined
+ * 3. 1 - NaN
+ * 4. 1 - Infinity
+ * 5. 1 - -Infinity
+ * 
+ * *
+ * 1. 1 * null
+ * 2. 1 * undefined
+ * 3. 1 * NaN
+ * 4. 1 * Infinity
+ * 5. 1 * -Infinity
+ * 
+ * /
+ * 1. 1 / null
+ * 2. 1 / undefined
+ * 3. 1 / NaN
+ * 4. 1 / Infinity
+ * 5. 1 / -Infinity
+ */
+
 
 

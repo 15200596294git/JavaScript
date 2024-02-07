@@ -305,7 +305,9 @@ function isNull(value) {
   // 如果第一个值为true，返回第二个值
   // 把(!value)看作一个整体，!value理解为 Boolean(value) === false
   // return (!value) && typeof value === 'object'
-  return Boolean(value) === false && typeof value === 'object'
+  // return Boolean(value) === false && typeof value === 'object'
+
+  return !value && typeof value === 'object'
 }
 function isBoolean(value) {
   return typeof value === 'boolean'

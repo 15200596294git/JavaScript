@@ -34,36 +34,47 @@
 //   })(i)
 // }
 
-// const myModules = (function defineModule() {
-//   const _modules = {}
+const myModules = (function defineModule() {
+  const _modules = {}
 
-//   function define(name, deps, fn) {
-//     const depsModule = deps.map((name)=> {
-//       return _modules[name]
-//     })
-//     _modules[name] = (...args)=> fn.apply(fn, depsModule.concat(args))
-//   }
-//   function getModule(name) {
-//     return _modules[name]
-//   }
-//   return {
-//     define,
-//     getModule,
-//   }
-// })()
+  function define(name, deps, fn) {
+    const depsModule = deps.map((name)=> {
+      return _modules[name]
+    })
+    _modules[name] = fn.apply(fn, depsModule)
+  }
+  function getModule(name) {
+    return _modules[name]
+  }
+  return {
+    define,
+    getModule,
+  }
+})()
 
-// myModules.define('foo', [], function(name) {
-//   return `Hello ${name}`
-//   // return ''
-// })
-// myModules.define('bar', ['foo'], function(foo) {
-//   console.log(foo('jg'))
-// })
+myModules.define('foo', [], function() {
+  function hello(name) {
+    return `Hello ${name}`
+  }
 
-// const foo = myModules.getModule('foo')
-// const bar = myModules.getModule('bar')
+  return {
+    hello,
+  }
+})
+myModules.define('bar', ['foo'], function(foo) {
+  function awesome() {
+    console.log(foo.hello('jg').toUpperCase())
+  }
 
-// bar()
+  return {
+    awesome
+  }
+})
+
+const foo = myModules.getModule('foo')
+const bar = myModules.getModule('bar')
+
+bar.awesome()
 
 
 // var MyModules = (function Manager() {

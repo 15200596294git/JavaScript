@@ -106,3 +106,5 @@
 //   bar.hello("hippo")
 // ); // Let me introduce: hippo
 // foo.awesome(); // LET ME INTRODUCE: HIPPO
+
+// P70

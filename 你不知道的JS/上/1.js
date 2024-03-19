@@ -76,7 +76,6 @@ const bar = myModules.getModule('bar')
 
 bar.awesome() */
 
-
 // var MyModules = (function Manager() {
 //   var modules = {};
 //   function define(name, deps, impl) {
@@ -140,7 +139,7 @@ var obj1 = {
   a: 2,
   obj2
 }
-obj1.obj2.foo()  */// 42 foo的this指向最后一层的调用，也就是obj2
+obj1.obj2.foo()  */ // 42 foo的this指向最后一层的调用，也就是obj2
 // 隐式丢失
 /* function foo() {
   console.log(this.a);
@@ -168,11 +167,11 @@ bar() // oops,global bar其实只是引用了foo函数，然后调用的时候�
 // 2.这个新对象会被执行[[原型]]连接
 // 3.这个新对象会绑定到函数调用的this
 // 4.如果函数没有返回其他对象，那么new表达适中的函数调用会自动返回这个新对象
-function foo(a) {
-  this.a = a
-}
-const bar = new foo(2)
-console.log(bar.a);
+// function foo(a) {
+//   this.a = a
+// }
+// const bar = new foo(2)
+// console.log(bar.a);
 
 // new绑定优先级 > 显示绑定 > 隐式绑定 > 默认
 
@@ -187,3 +186,96 @@ console.log(bar.a);
 // 4. 如果都不是的话，使用默认绑定。如果在严格模式下，就绑定到 undefined，否则绑定到
 // 全局对象。
 // var bar = foo()
+
+// softBind软绑定
+// 可以绑定一个上下文对象，返回一个函数
+// 该函数调用时如果this为默认的this，那就用最开始传入的上下文对象，否则用传入的this(call或者隐式的this)
+if (!Function.prototype.softBind) {
+  Function.prototype.softBind = function (defaultContext, ...args) {
+    const fn = this;
+    // context =
+
+    function wrapper(...args2) {
+      console.log("this", this);
+      const context = !this || this === globalThis ? defaultContext : this;
+      return fn.apply(context, args.concat(args2));
+    }
+
+    return wrapper;
+  };
+}
+
+// 软绑定
+/* function foo() {
+  console.log('name: '+ this.name);
+}
+function add(a,b,c) {
+  return a + b + c
+}
+
+var obj = {name: 'obj'},
+    obj2 = {name: 'obj2'},
+    obj3 = {name: 'obj3'} */
+
+// var fooOBJ = foo.softBind(obj)
+// fooOBJ() // name: obj
+
+// obj2.foo = foo.softBind(obj)
+// obj2.foo() // obj2
+// fooOBJ.call(obj3) // obj3
+// setTimeout(obj2.foo, 1000); // obj/
+
+// setTimeout( obj2.foo, 500); /// 3
+
+// var add1 = add.softBind(null, 1)
+// console.log(add1(2,3))
+
+// 工具函数，创建枚举状态
+// 根据下标获取对应的值，根据下标获取对应的key
+// 根据id获取label，根据label获取id
+
+function wrapperArray(arr) {
+  if(!arr.length) {
+    throw Error('arr 数组不能为空')
+    // return
+  }
+  const ret = {}
+  const firstItem = arr[0]
+  Object.keys(firstItem).forEach((k) => {
+    ret[k] = (value) => {
+      const index = arr.findIndex((dataItem) => dataItem[k] === value);
+      return {
+        get: (idt) => {
+          if (idt === "index") {
+            return index;
+          }
+
+          if (idt === "value") {
+            return arr[index];
+          }
+        },
+      };
+    };
+  });
+
+  return ret
+}
+
+const userList = [
+  { id: 1, name: "Mike" },
+  { id: 2, name: "Jack" },
+  { id: 3, name: "Bruce" },
+];
+
+const wrapped = wrapperArray(userList);
+
+// 对应的key的函数，传入对应的值，返回找到
+const ret1 = wrapped.id(1).get("index"); // 获取id为1的项的下标
+const ret2 = wrapped.id(1).get("value"); // 获取id为1的项的值
+const ret3 = wrapped.name("Mike").get("index"); // 获取name为Mike的值的下标
+
+console.log(ret1, ret2, ret3);
+
+// 项目里经常使用findIndex做一些查询操作
+// 可以封装成一个函数，然后类似上面调用
+console.log(wrapperArray(userList).id(3).get("index"));

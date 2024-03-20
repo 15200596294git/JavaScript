@@ -279,3 +279,6 @@ console.log(ret1, ret2, ret3);
 // 项目里经常使用findIndex做一些查询操作
 // 可以封装成一个函数，然后类似上面调用
 console.log(wrapperArray(userList).id(3).get("index"));
+
+
+

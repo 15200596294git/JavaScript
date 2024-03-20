@@ -282,3 +282,27 @@ console.log(wrapperArray(userList).id(3).get("index"));
 
 
 
+const obj = {}
+var value = 1
+Object.defineProperty(obj, 'a', {
+  // 数据描述符号和访问器描述符，都有以下配置
+  configurable: true,
+  enumerable: true,
+
+  // 数据描述符
+  value: 1,
+  writable: false,
+
+  // 访问器描述符
+  // get() {
+  //   return value
+  // },
+  // set(newValue) {
+  //   value = newValue
+  // },
+})
+
+// Object.preventExtensions()  Object.isExtensible() 禁止扩展(不能添加属性)
+// Object.seal()  Object.isSealed() 在preventExtensions的基础上把configurable改为false
+// Object.freeze() Object.isFrozen() 在seal的基础上把wirtable改为false
+

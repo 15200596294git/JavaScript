@@ -274,15 +274,15 @@ const ret1 = wrapped.id(1).get("index"); // 获取id为1的项的下标
 const ret2 = wrapped.id(1).get("value"); // 获取id为1的项的值
 const ret3 = wrapped.name("Mike").get("index"); // 获取name为Mike的值的下标
 
-console.log(ret1, ret2, ret3);
+// console.log(ret1, ret2, ret3);
 
 // 项目里经常使用findIndex做一些查询操作
 // 可以封装成一个函数，然后类似上面调用
-console.log(wrapperArray(userList).id(3).get("index"));
+// console.log(wrapperArray(userList).id(3).get("index"));
 
 
 
-const obj = {}
+/* const obj = {}
 var value = 1
 Object.defineProperty(obj, 'a', {
   // 数据描述符号和访问器描述符，都有以下配置
@@ -300,9 +300,37 @@ Object.defineProperty(obj, 'a', {
   // set(newValue) {
   //   value = newValue
   // },
-})
+}) */
 
 // Object.preventExtensions()  Object.isExtensible() 禁止扩展(不能添加属性)
 // Object.seal()  Object.isSealed() 在preventExtensions的基础上把configurable改为false
 // Object.freeze() Object.isFrozen() 在seal的基础上把wirtable改为false
+
+
+// [1] 1 > 1
+
+
+var obj = {
+  a: 1,
+  b: 2,
+  [Symbol.iterator](){
+    const o = this
+    const ks = Object.keys(o)
+    let i = 0
+
+    return {
+      next() {
+        return {
+          value: o[ks[i++]],
+          done: i > ks.length,
+        }
+      }
+    }
+  }
+}
+
+for(var v of obj) {
+  console.log(v)
+}
+
 

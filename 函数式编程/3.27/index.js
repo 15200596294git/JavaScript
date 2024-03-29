@@ -102,13 +102,13 @@ function nth(a, index) {
 }
 var letters = ["a", "b", "c"];
 // nth(letters, 1)
-function first(a) {
-  return nth(a, 0);
-}
+// function first(a) {
+//   return nth(a, 0);
+// }
 
 // first(letters)
 // first('abc')
-var arr = [2, 3, -1, -6, 0];
+// var arr = [2, 3, -1, -6, 0];
 
 function lessOrEqual(x, y) {
   return x <= y;
@@ -125,7 +125,7 @@ function comparator(prev) {
     return 0;
   };
 }
-arr.sort(comparator(lessOrEqual));
+// arr.sort(comparator(lessOrEqual));
 // arr
 // null == null null == undefined undefined == undefined
 // null和undefined除了和自身 ==， 还互相 ==， 此外和其他值都不会想等(==)
@@ -201,9 +201,9 @@ const library = [
 ]
 
 _.findWhere(library, { title: 'SICP' })
-// // console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
+// console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
 _.pluck(library, 'ed')
-// // console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
+// console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
 
 function project(table, keys) {
   return _.map(table, (v)=>  _.pick(v, keys))
@@ -211,9 +211,9 @@ function project(table, keys) {
 
 
 project(library, ['ed'])
-// // console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
+// console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
 project(library, ['ed', 'title'])
-// // console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
+// console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
 
 // 从library查找title，并重命名为 label
 
@@ -237,13 +237,60 @@ function as(table, newNames) {
 // project(library, ['title'])
 // console.log("🚀 ~ project(library, ['title']):", project(library, ['title']))
 // rename(project(library, ['title']), [ ['title', 'label' ] ])
-// // console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
+// console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
 
 // as(project(library, { title: 'label' }))
-// // console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
+// console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
 rename(project(library)[0], { title: 'label'})
 // console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
 
 // rename({ title: 1 }, {title: 'label'})
-// // console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
+// console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
+
+var globals = []
+// 接受一个函数，
+function makeBindFun(resolver) {
+  // 返回一个函数，接受 k v
+  return function(k, v) {
+    var stack = globals[k] || []
+    globals[k] = resolver(stack, v)
+    return globals
+  }
+}
+
+var stackBinder = makeBindFun(function(stack, v) {
+  stack.push(v)
+  return stack
+})
+
+var dynamicLookup = function(k) {
+  var slot = globals[k] || []
+  return _.last(slot)
+}
+
+stackBinder('a', 1)
+stackBinder('b', 100)
+dynamicLookup('a')
+// console.log("🚀 ~ a:", a)
+
+function pluck(k) {
+  return function(collection) {
+    return collection && collection[k]
+  }
+}
+
+// const obj = {
+//   name: 'jg',
+//   title: 'wsjg'
+// }
+// const arr = [1,2,3,4]
+// const first = pluck(0)
+// const getTitle = pluck('title')
+
+// first(arr)
+// console.log("🚀 ~ first(arr):", first(arr))
+
+// getTitle(obj)
+// console.log("🚀 ~ getTitle(obj):", getTitle(obj))
+
 

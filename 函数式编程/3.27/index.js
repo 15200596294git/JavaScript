@@ -173,46 +173,51 @@ function song(start, end, lyricsGen) {
 }
 
 // song(99, 0, lyricsSegment)
-var bFunc = function() {return this}
-var b=  { name: 'b', fun: bFunc}
+var bFunc = function () {
+  return this;
+};
+var b = { name: "b", fun: bFunc };
 // b.fun
 
 function allOf(...fns) {
-  return _.reduce(fns, (truth, fn)=> truth && fn(), true)
+  return _.reduce(fns, (truth, fn) => truth && fn(), true);
 }
 function anyOf(...fns) {
-  return _.reduce(fns, (truth, fn)=> truth || fn(), false)
+  return _.reduce(fns, (truth, fn) => truth || fn(), false);
 }
-function t() { return true }
-function f() { return false }
+function t() {
+  return true;
+}
+function f() {
+  return false;
+}
 
-allOf(t,t,t,f)
-allOf(t,t,t)
-allOf()
-anyOf()
-anyOf(t, t)
-anyOf(t,f)
-anyOf(f,f)
+allOf(t, t, t, f);
+allOf(t, t, t);
+allOf();
+anyOf();
+anyOf(t, t);
+anyOf(t, f);
+anyOf(f, f);
 
 const library = [
-  { title: 'SICP', isbn: '0262010771', ed: 1},
-  { title: 'SICP', isbn: '0262510871', ed: 2},
-  { title: 'Joy of Clojure', isbn: '1935182641', ed: 1},
-]
+  { title: "SICP", isbn: "0262010771", ed: 1 },
+  { title: "SICP", isbn: "0262510871", ed: 2 },
+  { title: "Joy of Clojure", isbn: "1935182641", ed: 1 },
+];
 
-_.findWhere(library, { title: 'SICP' })
+_.findWhere(library, { title: "SICP" });
 // console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
-_.pluck(library, 'ed')
+_.pluck(library, "ed");
 // console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
 
 function project(table, keys) {
-  return _.map(table, (v)=>  _.pick(v, keys))
+  return _.map(table, (v) => _.pick(v, keys));
 }
 
-
-project(library, ['ed'])
+project(library, ["ed"]);
 // console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
-project(library, ['ed', 'title'])
+project(library, ["ed", "title"]);
 // console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
 
 // 从library查找title，并重命名为 label
@@ -223,15 +228,19 @@ project(library, ['ed', 'title'])
 function rename(obj, newNames) {
   // obj
   // console.log("🚀 ~ rename ~ obj:", obj)
-  return _.reduce(newNames, (o, newKey, oldKey)=> {
-    o[newKey] = obj[oldKey]
+  return _.reduce(
+    newNames,
+    (o, newKey, oldKey) => {
+      o[newKey] = obj[oldKey];
 
-    return o
-  }, _.omit(obj, _.keys(newNames)) )
+      return o;
+    },
+    _.omit(obj, _.keys(newNames))
+  );
 }
 
 function as(table, newNames) {
-  return _.map(table, (collectionItem)=> rename(collectionItem, newNames))
+  return _.map(table, (collectionItem) => rename(collectionItem, newNames));
 }
 
 // project(library, ['title'])
@@ -241,42 +250,42 @@ function as(table, newNames) {
 
 // as(project(library, { title: 'label' }))
 // console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
-rename(project(library)[0], { title: 'label'})
+rename(project(library)[0], { title: "label" });
 // console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
 
 // rename({ title: 1 }, {title: 'label'})
 // console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
 
-var globals = []
+var globals = [];
 // 接受一个函数，
 function makeBindFun(resolver) {
   // 返回一个函数，接受 k v
-  return function(k, v) {
-    var stack = globals[k] || []
-    globals[k] = resolver(stack, v)
-    return globals
-  }
+  return function (k, v) {
+    var stack = globals[k] || [];
+    globals[k] = resolver(stack, v);
+    return globals;
+  };
 }
 
-var stackBinder = makeBindFun(function(stack, v) {
-  stack.push(v)
-  return stack
-})
+var stackBinder = makeBindFun(function (stack, v) {
+  stack.push(v);
+  return stack;
+});
 
-var dynamicLookup = function(k) {
-  var slot = globals[k] || []
-  return _.last(slot)
-}
+var dynamicLookup = function (k) {
+  var slot = globals[k] || [];
+  return _.last(slot);
+};
 
-stackBinder('a', 1)
-stackBinder('b', 100)
-dynamicLookup('a')
+stackBinder("a", 1);
+stackBinder("b", 100);
+dynamicLookup("a");
 // console.log("🚀 ~ a:", a)
 
 function pluck(k) {
-  return function(collection) {
-    return collection && collection[k]
-  }
+  return function (collection) {
+    return collection && collection[k];
+  };
 }
 
 // const obj = {
@@ -293,4 +302,141 @@ function pluck(k) {
 // getTitle(obj)
 // console.log("🚀 ~ getTitle(obj):", getTitle(obj))
 
+// function repeat(times, value) {
+//   return _.map(_.range(times), ()=> value)
+// }
 
+// repeat(10, 'jg')
+// console.log("🚀 ~ repeat(10, 'jg'):", repeat(10, 'jg'))
+
+// function repeat(times, fn) {
+//   return _.map(_.range(times), fn);
+// }
+
+// repeat(10, (i)=> i * 2)
+// console.log("🚀 ~ repeat(10, (i)=> i * 2):", repeat(10, (i)=> i * 2))
+
+// function repeat(fun, check, init) {
+//   const ret = []
+//   let result = fun(init)
+
+//   while(check(result)) {
+//     ret.push(result)
+//     result = fun(result)
+//   }
+//   return ret
+// }
+
+// 生成1-10
+// repeat((x)=> x, (x)=> x <= 10, 1)
+// console.log("🚀 ~ repeat((x)=> x, (x)=> x <= 10, 1):", repeat((x)=> x + 1, (x)=> x <= 9, -1))
+
+function always(value) {
+  return function () {
+    return value;
+  };
+}
+
+var g = always(function () {});
+
+// g() === g()
+// console.log("🚀 ~ g() === g():", g() === g())
+
+function makeUniqueString(start) {
+  return function (prefix) {
+    return [prefix, start++].join("");
+  };
+}
+
+// makeUniqueString('wsjg')
+const uniqueString = makeUniqueString(0);
+
+// uniqueString('wsjg')
+// console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+// uniqueString('wsjg')
+// console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+
+var nums = [1, 2, 3, null, 5];
+
+_.reduce(nums, (prev, cure) => prev * cure);
+// console.log("🚀 ~ _.reduce(nums, (prev, cure)=> prev * cure):", _.reduce(nums, (prev, cure)=> prev * cure))
+
+function fnull(fun, ...defaults) {
+  return function (...args) {
+    const safeArgs = _.map(args, (item, i) =>
+      existy(item) ? item : defaults[i]
+    );
+    return fun.apply(null, safeArgs);
+  };
+}
+
+_.reduce(nums,fnull((x, y) => x * y, 1, 1));
+console.log("🚀 ~ _.reduce(nums,fnull((x, y) => x * y, 1, 1));:", _.reduce(nums,fnull((x, y) => x * y, 1, 1)))
+
+
+
+const obj = {
+  message: 'Hi!',
+  type: 'display',
+  from:"baidu.com"
+}
+
+function checker(...validators) {
+  return function(obj) {
+    return _.reduce(validators, (errs, check)=> {
+      if(check(obj)) return errs
+      else return _.chain(errs).push(check.message).value()
+    }, [])
+  }
+}
+
+// var fn = always(true)
+// fn.message = '出现了一个错误'
+// checker(obj, [fn])
+// console.log("🚀 ~ checker(obj, [fn]):", checker(obj, [fn]))
+
+// 比如此时有多个表单
+// 你应该创建一个专门用来验证不同表单的函数，所以可以利用闭包先把验证函数传入
+// 验证不同表单时传入对应的表单即可
+
+// 验证函数需要设置一个message属性，每次都去设置很麻烦
+// 创建一个函数，接收验证函数和message
+// 并返回一个函数，这个函数的message属性为传入的message
+function validator(message, fn) {
+  const f = (...args)=> {
+    return fn.apply(null, args)
+  }
+  f.message = message
+
+  return f
+}
+
+// var form1 = {}
+// var form2 = {}
+
+// const checkForm1 = checker(validateFn(always(true), '出现了一个错误') )
+// checkForm1(form1)
+// console.log("🚀 ~ checkForm1(form1):", checkForm1(form1))
+
+// const checkForm2 = checker( validateFn(always(false), '出现了一个错误') )
+// checkForm2(form2)
+// console.log("🚀 ~ checkForm2(form2):", checkForm2(form2))
+
+function curry2(fun) {
+  return function(secondArg) {
+    return function(firstArg) {
+      return fun(firstArg, secondArg)
+    }
+  }
+}
+
+const greaterThan = curry2((lhs, rhs)=> lhs > rhs)
+const lessThen = curry2((lhs, rhs)=> lhs < rhs)
+
+const withinRange = checker(
+  validator('arg must be greater than 10', greaterThan(10)), 
+  validator('arg must be less than 20',lessThen(20))
+  )
+
+withinRange(10)
+console.log("🚀 ~ withinRange(10):", withinRange(19))

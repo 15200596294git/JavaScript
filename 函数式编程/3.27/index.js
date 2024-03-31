@@ -439,4 +439,82 @@ const withinRange = checker(
   )
 
 withinRange(10)
-console.log("🚀 ~ withinRange(10):", withinRange(19))
+// console.log("🚀 ~ withinRange(10):", withinRange(19))
+
+// _.zip([ [1, 2,3], [2,4,6]  ])
+// console.log("🚀 ~ _.zip([ [1, 2,3], [2,4,6]  ]):", _.zip( [1, 2,3], [2,4,6]  )) // [ [1,2], [2,4], [3,6] ]
+
+function second(arr) {
+  return nth(arr, 1)
+}
+
+function construct(value, arr) {
+  return _.chain(_.toArray(arr)).unshift(value).value()
+}
+
+function constructPair(pair, rets) {
+  return [
+    construct(_.first(pair), _.first(rets)),
+    construct(second(pair), second(rets)),
+  ]
+}
+
+constructPair(['b', 2] ,constructPair(['a', 1], [[], []]))
+
+function unzip(pairs) {
+  if(_.isEmpty(pairs)) {
+    return [[ ], [ ]]
+  }
+
+  return constructPair(_.head(pairs), unzip(_.rest(pairs)) )
+}
+
+unzip([ ['a', 1], ['b', 2], ['c', 3] ])
+// console.log("🚀 ~ unzip([ ['a', 1], ['b', 2], ['c', 3] ]):", unzip([ ['a', 1], ['b', 2], ['c', 3] ]))
+// 126
+
+
+// 递归
+// 1.何时停止 
+// 2.进行一个步骤(解决问题的方法)
+// 3.小一些的问题(把问题变的更小)
+
+var influences = [
+  ['Lisp', 'Smalltalk'],
+  ['Lisp', 'Scheme'],
+  ['Smalltalk', 'Self'],
+  ['Scheme', 'JavaScript'],
+  ['Scheme', 'Lua'],
+  ['Self', 'Lua'],
+  ['Self', 'JavaScript'],
+]
+
+function nexts(graph, node, ret = []) {
+  // 1.终止条件
+  // graph为空时，返回空数组
+
+  // 2.进行一个步骤
+  // 每次取出数组的第一项
+  // 用数组第一项的第一个值和node作比较
+  // 3.把问题变小
+  // 如果相等 把数组第二项加入到返回值
+  // 否则 去掉数组的第一项后继续调用
+
+  if(_.isEmpty(graph)) return ret
+
+  const pair = _.first(graph)
+  const [from, to] = pair
+  const restGraph = _.rest(graph)
+
+  if(_.isEqual(node, from)) {
+    ret.push(to)
+  }
+
+  return nexts(restGraph, node, ret)
+}
+
+nexts(influences, 'Lisp')
+console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
+
+
+

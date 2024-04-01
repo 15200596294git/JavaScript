@@ -207,18 +207,18 @@ const library = [
 ];
 
 _.findWhere(library, { title: "SICP" });
-// console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
+// // console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
 _.pluck(library, "ed");
-// console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
+// // console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
 
 function project(table, keys) {
   return _.map(table, (v) => _.pick(v, keys));
 }
 
 project(library, ["ed"]);
-// console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
+// // console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
 project(library, ["ed", "title"]);
-// console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
+// // console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
 
 // 从library查找title，并重命名为 label
 
@@ -227,7 +227,7 @@ project(library, ["ed", "title"]);
 // 将新的key和原来的值组合在一起
 function rename(obj, newNames) {
   // obj
-  // console.log("🚀 ~ rename ~ obj:", obj)
+  // // console.log("🚀 ~ rename ~ obj:", obj)
   return _.reduce(
     newNames,
     (o, newKey, oldKey) => {
@@ -244,17 +244,17 @@ function as(table, newNames) {
 }
 
 // project(library, ['title'])
-// console.log("🚀 ~ project(library, ['title']):", project(library, ['title']))
+// // console.log("🚀 ~ project(library, ['title']):", project(library, ['title']))
 // rename(project(library, ['title']), [ ['title', 'label' ] ])
-// console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
+// // console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
 
 // as(project(library, { title: 'label' }))
-// console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
+// // console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
 rename(project(library)[0], { title: "label" });
-// console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
+// // console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
 
 // rename({ title: 1 }, {title: 'label'})
-// console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
+// // console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
 
 var globals = [];
 // 接受一个函数，
@@ -280,7 +280,7 @@ var dynamicLookup = function (k) {
 stackBinder("a", 1);
 stackBinder("b", 100);
 dynamicLookup("a");
-// console.log("🚀 ~ a:", a)
+// // console.log("🚀 ~ a:", a)
 
 function pluck(k) {
   return function (collection) {
@@ -297,24 +297,24 @@ function pluck(k) {
 // const getTitle = pluck('title')
 
 // first(arr)
-// console.log("🚀 ~ first(arr):", first(arr))
+// // console.log("🚀 ~ first(arr):", first(arr))
 
 // getTitle(obj)
-// console.log("🚀 ~ getTitle(obj):", getTitle(obj))
+// // console.log("🚀 ~ getTitle(obj):", getTitle(obj))
 
 // function repeat(times, value) {
 //   return _.map(_.range(times), ()=> value)
 // }
 
 // repeat(10, 'jg')
-// console.log("🚀 ~ repeat(10, 'jg'):", repeat(10, 'jg'))
+// // console.log("🚀 ~ repeat(10, 'jg'):", repeat(10, 'jg'))
 
 // function repeat(times, fn) {
 //   return _.map(_.range(times), fn);
 // }
 
 // repeat(10, (i)=> i * 2)
-// console.log("🚀 ~ repeat(10, (i)=> i * 2):", repeat(10, (i)=> i * 2))
+// // console.log("🚀 ~ repeat(10, (i)=> i * 2):", repeat(10, (i)=> i * 2))
 
 // function repeat(fun, check, init) {
 //   const ret = []
@@ -329,7 +329,7 @@ function pluck(k) {
 
 // 生成1-10
 // repeat((x)=> x, (x)=> x <= 10, 1)
-// console.log("🚀 ~ repeat((x)=> x, (x)=> x <= 10, 1):", repeat((x)=> x + 1, (x)=> x <= 9, -1))
+// // console.log("🚀 ~ repeat((x)=> x, (x)=> x <= 10, 1):", repeat((x)=> x + 1, (x)=> x <= 9, -1))
 
 function always(value) {
   return function () {
@@ -337,10 +337,10 @@ function always(value) {
   };
 }
 
-var g = always(function () {});
+var g = always(function () { });
 
 // g() === g()
-// console.log("🚀 ~ g() === g():", g() === g())
+// // console.log("🚀 ~ g() === g():", g() === g())
 
 function makeUniqueString(start) {
   return function (prefix) {
@@ -352,14 +352,14 @@ function makeUniqueString(start) {
 const uniqueString = makeUniqueString(0);
 
 // uniqueString('wsjg')
-// console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+// // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
 // uniqueString('wsjg')
-// console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+// // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
 
 var nums = [1, 2, 3, null, 5];
 
 _.reduce(nums, (prev, cure) => prev * cure);
-// console.log("🚀 ~ _.reduce(nums, (prev, cure)=> prev * cure):", _.reduce(nums, (prev, cure)=> prev * cure))
+// // console.log("🚀 ~ _.reduce(nums, (prev, cure)=> prev * cure):", _.reduce(nums, (prev, cure)=> prev * cure))
 
 function fnull(fun, ...defaults) {
   return function (...args) {
@@ -370,21 +370,21 @@ function fnull(fun, ...defaults) {
   };
 }
 
-_.reduce(nums,fnull((x, y) => x * y, 1, 1));
-console.log("🚀 ~ _.reduce(nums,fnull((x, y) => x * y, 1, 1));:", _.reduce(nums,fnull((x, y) => x * y, 1, 1)))
+_.reduce(nums, fnull((x, y) => x * y, 1, 1));
+// // console.log("🚀 ~ _.reduce(nums,fnull((x, y) => x * y, 1, 1));:", _.reduce(nums, fnull((x, y) => x * y, 1, 1)))
 
 
 
-const obj = {
-  message: 'Hi!',
-  type: 'display',
-  from:"baidu.com"
-}
+// const obj = {
+//   message: 'Hi!',
+//   type: 'display',
+//   from:"baidu.com"
+// }
 
 function checker(...validators) {
-  return function(obj) {
-    return _.reduce(validators, (errs, check)=> {
-      if(check(obj)) return errs
+  return function (obj) {
+    return _.reduce(validators, (errs, check) => {
+      if (check(obj)) return errs
       else return _.chain(errs).push(check.message).value()
     }, [])
   }
@@ -393,7 +393,7 @@ function checker(...validators) {
 // var fn = always(true)
 // fn.message = '出现了一个错误'
 // checker(obj, [fn])
-// console.log("🚀 ~ checker(obj, [fn]):", checker(obj, [fn]))
+// // console.log("🚀 ~ checker(obj, [fn]):", checker(obj, [fn]))
 
 // 比如此时有多个表单
 // 你应该创建一个专门用来验证不同表单的函数，所以可以利用闭包先把验证函数传入
@@ -403,7 +403,7 @@ function checker(...validators) {
 // 创建一个函数，接收验证函数和message
 // 并返回一个函数，这个函数的message属性为传入的message
 function validator(message, fn) {
-  const f = (...args)=> {
+  const f = (...args) => {
     return fn.apply(null, args)
   }
   f.message = message
@@ -416,33 +416,33 @@ function validator(message, fn) {
 
 // const checkForm1 = checker(validateFn(always(true), '出现了一个错误') )
 // checkForm1(form1)
-// console.log("🚀 ~ checkForm1(form1):", checkForm1(form1))
+// // console.log("🚀 ~ checkForm1(form1):", checkForm1(form1))
 
 // const checkForm2 = checker( validateFn(always(false), '出现了一个错误') )
 // checkForm2(form2)
-// console.log("🚀 ~ checkForm2(form2):", checkForm2(form2))
+// // console.log("🚀 ~ checkForm2(form2):", checkForm2(form2))
 
 function curry2(fun) {
-  return function(secondArg) {
-    return function(firstArg) {
+  return function (secondArg) {
+    return function (firstArg) {
       return fun(firstArg, secondArg)
     }
   }
 }
 
-const greaterThan = curry2((lhs, rhs)=> lhs > rhs)
-const lessThen = curry2((lhs, rhs)=> lhs < rhs)
+const greaterThan = curry2((lhs, rhs) => lhs > rhs)
+const lessThen = curry2((lhs, rhs) => lhs < rhs)
 
 const withinRange = checker(
-  validator('arg must be greater than 10', greaterThan(10)), 
-  validator('arg must be less than 20',lessThen(20))
-  )
+  validator('arg must be greater than 10', greaterThan(10)),
+  validator('arg must be less than 20', lessThen(20))
+)
 
 withinRange(10)
-// console.log("🚀 ~ withinRange(10):", withinRange(19))
+// // console.log("🚀 ~ withinRange(10):", withinRange(19))
 
 // _.zip([ [1, 2,3], [2,4,6]  ])
-// console.log("🚀 ~ _.zip([ [1, 2,3], [2,4,6]  ]):", _.zip( [1, 2,3], [2,4,6]  )) // [ [1,2], [2,4], [3,6] ]
+// // console.log("🚀 ~ _.zip([ [1, 2,3], [2,4,6]  ]):", _.zip( [1, 2,3], [2,4,6]  ))  [ [1,2], [2,4], [3,6] ]
 
 function second(arr) {
   return nth(arr, 1)
@@ -459,18 +459,18 @@ function constructPair(pair, rets) {
   ]
 }
 
-constructPair(['b', 2] ,constructPair(['a', 1], [[], []]))
+constructPair(['b', 2], constructPair(['a', 1], [[], []]))
 
 function unzip(pairs) {
-  if(_.isEmpty(pairs)) {
-    return [[ ], [ ]]
+  if (_.isEmpty(pairs)) {
+    return [[], []]
   }
 
-  return constructPair(_.head(pairs), unzip(_.rest(pairs)) )
+  return constructPair(_.head(pairs), unzip(_.rest(pairs)))
 }
 
-unzip([ ['a', 1], ['b', 2], ['c', 3] ])
-// console.log("🚀 ~ unzip([ ['a', 1], ['b', 2], ['c', 3] ]):", unzip([ ['a', 1], ['b', 2], ['c', 3] ]))
+unzip([['a', 1], ['b', 2], ['c', 3]])
+// // console.log("🚀 ~ unzip([ ['a', 1], ['b', 2], ['c', 3] ]):", unzip([ ['a', 1], ['b', 2], ['c', 3] ]))
 // 126
 
 
@@ -500,13 +500,13 @@ function nexts(graph, node, ret = []) {
   // 如果相等 把数组第二项加入到返回值
   // 否则 去掉数组的第一项后继续调用
 
-  if(_.isEmpty(graph)) return ret
+  if (_.isEmpty(graph)) return ret
 
   const pair = _.first(graph)
   const [from, to] = pair
   const restGraph = _.rest(graph)
 
-  if(_.isEqual(node, from)) {
+  if (_.isEqual(node, from)) {
     ret.push(to)
   }
 
@@ -514,7 +514,7 @@ function nexts(graph, node, ret = []) {
 }
 
 nexts(influences, 'Lisp')
-console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
+// // console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
 
 // 广度优先
 // 终止条件是，该节点没有关联节点的时候停止
@@ -530,12 +530,12 @@ console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
 // 如果有 递归调用depthSearch,nodes变为去掉数组第一项，其他参数不变
 // 否则 graph不变，nodes需要根据当前nodes中的第一项得到与它有关的项目(nexts(node)), seen将当前node添加到数组
 function depthSearch(graph, nodes, seen) {
-  if(_.isEmpty(nodes)) return seen
+  if (_.isEmpty(nodes)) return seen
 
   const node = _.first(nodes)
   const more = _.rest(nodes)
 
-  if(_.contains(seen, node)) {
+  if (_.contains(seen, node)) {
     return depthSearch(graph, more, seen)
   }
 
@@ -546,8 +546,188 @@ function depthSearch(graph, nodes, seen) {
   )
 }
 
-depthSearch(influences, ['Lisp'], [])
-console.log("🚀 ~ depthSearch(influences, ['Lisp'], []):", depthSearch(influences, ['Lisp'], []))
 
+
+depthSearch(influences, ['Lisp'], [])
+// // console.log("🚀 ~ depthSearch(influences, ['Lisp'], []):", depthSearch(influences, ['Lisp'], []))
+
+
+// 广度优先
+// 1.终止条件 nodes为空 返回seen
+// 2.解决一个问题 每次将nodes节点加入到seen中
+// 3.小一些的问题 
+// 循环nodes，判断每个node是否在seen中存在
+// 存在 不加入seen
+// 否则 加入seen 并调用nexts组成数组nodes，传入下一个调用
+function breadthSearch(graph, nodes, seen) {
+  if (_.isEmpty(nodes)) return seen
+
+  const nextNodes = _.reduce(nodes, (ret, node) => {
+    if (!_.contains(seen, node)) {
+      seen.push(node)
+      return ret.concat(nexts(graph, node))
+    }
+
+    return ret
+  }, [])
+
+  return breadthSearch(graph, nextNodes, seen)
+}
+
+// breadthSearch(influences, ['Lisp'], [])
+// // console.log("🚀 ~ breadthSearch(influences, ['Lisp'], []):", breadthSearch(influences, ['Lisp'], []))
+
+
+function isEven(value) {
+  return value % 2 === 0
+}
+
+function andify(...preds) {
+  return function (...values) {
+
+    // 递归
+    // 1.终止条件 谓词函数数组为空(对值的验证已经完成) (返回验证结果)
+    // 2.解决一个问题 每次用第一个谓词函数对所有传入的值进行验证
+    // 3.更小一些的问题 将除了第一个谓词函数之外的谓词函数数组传入下一个everything调用
+    const everything = (ps, truth) => {
+      if (_.isEmpty(ps)) return truth
+
+      // 验证通过才会调用
+      // 如果验证不通过久直接返回结果false了，惰性调用
+      return _.every(values, _.first(ps)) && everything(_.rest(ps), truth)
+    }
+
+    return everything(preds, true)
+  }
+}
+
+// var evenNums = andify(_.isNumber, isEven)
+// evenNums(1,2)
+// // console.log("🚀 ~ evenNums(1,2):", evenNums(1,2))
+
+// evenNums(2,4,6,8)
+// // console.log("🚀 ~ evenNums(2,4,6,8):", evenNums(2,4,6,8))
+
+
+function orify(...preds) {
+
+  return function (...values) {
+    const something = (ps, truth) => {
+      if (_.isEmpty(ps)) return truth
+      return _.some(values, _.first(ps)) || something(_.rest(ps), truth)
+    }
+
+    return something(preds, false)
+  }
+}
+
+const numberOrArray = orify(_.isNumber, _.isArray)
+// numberOrArray(1,[])
+// // console.log("🚀 ~ numberOrArray(1,[]):", numberOrArray(1,[]))
+
+// numberOrArray('1','2')
+// // console.log("🚀 ~ numberOrArray('1',[]):", numberOrArray('1','2'))
+
+// numberOrArray([],[1,2])
+// // console.log("🚀 ~ numberOrArray([],[1,2]):", numberOrArray([],[1,2]))
+
+
+// 接受一个数组或者其他类型，如果还是数组就继续递归
+// 如果不是数组就返回
+// 1.终止条件 不为数组时
+// 2.解决一个问题 判断arr的第一项是否为数组，如果是就继续调用，不是就返回
+// 3.更小一些的问题 将arr的第一项打散或者
+function flat(arr) {
+  if (Array.isArray(arr)) {
+    return _.reduce(arr, (ret, item) => {
+      return ret.concat(flat(item))
+    }, [])
+  }
+
+  return arr
+}
+
+flat([1, 2], [3, 4])
+// // console.log("🚀 ~ flat([1,2], [3,4]):", flat([ [1,2], [3,4], [5,6], [ [7,8] ] ]))
+
+// 1.终止条件 传入的值为普通对象
+// 2.解决一个问题 
+// 3.更小一些的问题
+// 对每个对象或者数组进行浅克隆
+function deepClone(collection) {
+  if (_.isObject(collection)) {
+    return _.reduce(collection, (ret, cur, k) => {
+      ret[k] = deepClone(cur)
+
+      return ret
+    }, _.isArray(collection) ? [] : {})
+  }
+
+  return collection
+}
+
+const obj = {
+  a: 1,
+  b: {
+    c: [3]
+  },
+  d: [
+    { e: 4 }
+  ]
+}
+
+// deepClone(obj)
+// // console.log("🚀 ~ deepClone(obj):", deepClone(obj))
+
+function trampoline(fun, ...args) {
+  let ret = fun.apply(null, args)
+  while(_.isFunction(ret)) {
+    ret = ret()
+  }
+
+  return ret
+}
+
+function generator(seed, current, step) {
+  return {
+    head: current(seed),
+    tail: () => {
+      return generator(step(seed), current, step)
+    }
+  }
+}
+function genHead(gen) { 
+  return gen.head
+}
+function genTail(gen) {
+  return gen.tail()
+}
+
+function genTake(n, gen) {
+  // n为0时终止 返回ret
+  // 将head放入ret
+  // 将tail当作gen返回
+  // n--
+  const doTake = (n, gen, ret)=> {
+    if(n === 0) return ret
+
+    return _.partial(doTake, --n, genTail(gen), _.chain(ret).push(genHead(gen)).value() )
+  }
+
+  return trampoline(doTake, n, gen, [])
+}
+
+const ints = generator(0, _.identity, (x) => x + 1)
+genTake(1, ints)
+console.log("🚀 ~ genTake(10, ints):", genTake(1, ints))
+
+
+
+// ints.head
+// console.log("🚀 ~ ints.head:", ints.head)
+
+// ints.tail()
+// console.log("🚀 ~ ints.tail():", ints.tail().tail())
+// 151
 
 

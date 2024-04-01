@@ -516,5 +516,38 @@ function nexts(graph, node, ret = []) {
 nexts(influences, 'Lisp')
 console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
 
+// 广度优先
+// 终止条件是，该节点没有关联节点的时候停止
+
+// 默认从graph的第一项开始查找
+
+
+// 深度优先
+// nodes为空是终止条件, 
+// 从nodes中拿出第一项
+// 判断seen中是否有该项
+// 3.更小一些的问题
+// 如果有 递归调用depthSearch,nodes变为去掉数组第一项，其他参数不变
+// 否则 graph不变，nodes需要根据当前nodes中的第一项得到与它有关的项目(nexts(node)), seen将当前node添加到数组
+function depthSearch(graph, nodes, seen) {
+  if(_.isEmpty(nodes)) return seen
+
+  const node = _.first(nodes)
+  const more = _.rest(nodes)
+
+  if(_.contains(seen, node)) {
+    return depthSearch(graph, more, seen)
+  }
+
+  return depthSearch(
+    graph,
+    nexts(graph, node).concat(more),
+    _.chain(seen).push(node).value(),
+  )
+}
+
+depthSearch(influences, ['Lisp'], [])
+console.log("🚀 ~ depthSearch(influences, ['Lisp'], []):", depthSearch(influences, ['Lisp'], []))
+
 
 

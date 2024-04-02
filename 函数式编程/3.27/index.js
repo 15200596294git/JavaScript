@@ -46,10 +46,10 @@ function fail(thing) {
   throw new Error(thing);
 }
 function warn(thing) {
-  console.log(["WARNING:", thing].join(" "));
+  // console.log(["🚀 ~ WARNING:", thing].join(" "));
 }
 function note(thing) {
-  console.log(["NOTE:", thing].join(" "));
+  // console.log(["🚀 ~ NOTE:", thing].join(" "));
 }
 
 function parseAge(age) {
@@ -207,18 +207,18 @@ const library = [
 ];
 
 _.findWhere(library, { title: "SICP" });
-// // console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
+// // // console.log("🚀 ~ _.findWhere(library, { title: 'SICP' }):", _.where(library, { ed: 1 }))
 _.pluck(library, "ed");
-// // console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
+// // // console.log("🚀 ~ _.pluck(library, 'ed'):", _.pluck(library, 'title'))
 
 function project(table, keys) {
   return _.map(table, (v) => _.pick(v, keys));
 }
 
 project(library, ["ed"]);
-// // console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
+// // // console.log("🚀 ~ project(library, ['ed']):", project(library, ['ed']))
 project(library, ["ed", "title"]);
-// // console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
+// // // console.log("🚀 ~ project(library, ['ed', 'title']):", project(library, ['ed', 'title']))
 
 // 从library查找title，并重命名为 label
 
@@ -227,7 +227,7 @@ project(library, ["ed", "title"]);
 // 将新的key和原来的值组合在一起
 function rename(obj, newNames) {
   // obj
-  // // console.log("🚀 ~ rename ~ obj:", obj)
+  // // // console.log("🚀 ~ rename ~ obj:", obj)
   return _.reduce(
     newNames,
     (o, newKey, oldKey) => {
@@ -244,17 +244,17 @@ function as(table, newNames) {
 }
 
 // project(library, ['title'])
-// // console.log("🚀 ~ project(library, ['title']):", project(library, ['title']))
+// // // console.log("🚀 ~ project(library, ['title']):", project(library, ['title']))
 // rename(project(library, ['title']), [ ['title', 'label' ] ])
-// // console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
+// // // console.log("🚀 ~ rename(project(library, ['title']), [ ['title', 'label' ] ]):", rename(project(library, ['title']), [ ['title', 'label' ] ]))
 
 // as(project(library, { title: 'label' }))
-// // console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
+// // // console.log("🚀 ~ as(project(library, { title: 'label' })):", as(project(library, { title: 'label' })))
 rename(project(library)[0], { title: "label" });
-// // console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
+// // // console.log("🚀 ~ rename(project(library)[0], { title: 'label'}):", as(project(library, ['title']), { title: 'title2'}))
 
 // rename({ title: 1 }, {title: 'label'})
-// // console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
+// // // console.log("🚀 ~ rename({ title: 1 }, {title: 'label'}):", rename({ title: 1 }, {title: 'label'}))
 
 var globals = [];
 // 接受一个函数，
@@ -280,7 +280,7 @@ var dynamicLookup = function (k) {
 stackBinder("a", 1);
 stackBinder("b", 100);
 dynamicLookup("a");
-// // console.log("🚀 ~ a:", a)
+// // // console.log("🚀 ~ a:", a)
 
 function pluck(k) {
   return function (collection) {
@@ -297,24 +297,24 @@ function pluck(k) {
 // const getTitle = pluck('title')
 
 // first(arr)
-// // console.log("🚀 ~ first(arr):", first(arr))
+// // // console.log("🚀 ~ first(arr):", first(arr))
 
 // getTitle(obj)
-// // console.log("🚀 ~ getTitle(obj):", getTitle(obj))
+// // // console.log("🚀 ~ getTitle(obj):", getTitle(obj))
 
 // function repeat(times, value) {
 //   return _.map(_.range(times), ()=> value)
 // }
 
 // repeat(10, 'jg')
-// // console.log("🚀 ~ repeat(10, 'jg'):", repeat(10, 'jg'))
+// // // console.log("🚀 ~ repeat(10, 'jg'):", repeat(10, 'jg'))
 
 // function repeat(times, fn) {
 //   return _.map(_.range(times), fn);
 // }
 
 // repeat(10, (i)=> i * 2)
-// // console.log("🚀 ~ repeat(10, (i)=> i * 2):", repeat(10, (i)=> i * 2))
+// // // console.log("🚀 ~ repeat(10, (i)=> i * 2):", repeat(10, (i)=> i * 2))
 
 // function repeat(fun, check, init) {
 //   const ret = []
@@ -329,7 +329,7 @@ function pluck(k) {
 
 // 生成1-10
 // repeat((x)=> x, (x)=> x <= 10, 1)
-// // console.log("🚀 ~ repeat((x)=> x, (x)=> x <= 10, 1):", repeat((x)=> x + 1, (x)=> x <= 9, -1))
+// // // console.log("🚀 ~ repeat((x)=> x, (x)=> x <= 10, 1):", repeat((x)=> x + 1, (x)=> x <= 9, -1))
 
 function always(value) {
   return function () {
@@ -340,7 +340,7 @@ function always(value) {
 var g = always(function () { });
 
 // g() === g()
-// // console.log("🚀 ~ g() === g():", g() === g())
+// // // console.log("🚀 ~ g() === g():", g() === g())
 
 function makeUniqueString(start) {
   return function (prefix) {
@@ -352,14 +352,14 @@ function makeUniqueString(start) {
 const uniqueString = makeUniqueString(0);
 
 // uniqueString('wsjg')
-// // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+// // // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
 // uniqueString('wsjg')
-// // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
+// // // console.log("🚀 ~ uniqueString('wsjg'):", uniqueString('wsjg'))
 
 var nums = [1, 2, 3, null, 5];
 
 _.reduce(nums, (prev, cure) => prev * cure);
-// // console.log("🚀 ~ _.reduce(nums, (prev, cure)=> prev * cure):", _.reduce(nums, (prev, cure)=> prev * cure))
+// // // console.log("🚀 ~ _.reduce(nums, (prev, cure)=> prev * cure):", _.reduce(nums, (prev, cure)=> prev * cure))
 
 function fnull(fun, ...defaults) {
   return function (...args) {
@@ -371,7 +371,7 @@ function fnull(fun, ...defaults) {
 }
 
 _.reduce(nums, fnull((x, y) => x * y, 1, 1));
-// // console.log("🚀 ~ _.reduce(nums,fnull((x, y) => x * y, 1, 1));:", _.reduce(nums, fnull((x, y) => x * y, 1, 1)))
+// // // console.log("🚀 ~ _.reduce(nums,fnull((x, y) => x * y, 1, 1));:", _.reduce(nums, fnull((x, y) => x * y, 1, 1)))
 
 
 
@@ -393,7 +393,7 @@ function checker(...validators) {
 // var fn = always(true)
 // fn.message = '出现了一个错误'
 // checker(obj, [fn])
-// // console.log("🚀 ~ checker(obj, [fn]):", checker(obj, [fn]))
+// // // console.log("🚀 ~ checker(obj, [fn]):", checker(obj, [fn]))
 
 // 比如此时有多个表单
 // 你应该创建一个专门用来验证不同表单的函数，所以可以利用闭包先把验证函数传入
@@ -416,11 +416,11 @@ function validator(message, fn) {
 
 // const checkForm1 = checker(validateFn(always(true), '出现了一个错误') )
 // checkForm1(form1)
-// // console.log("🚀 ~ checkForm1(form1):", checkForm1(form1))
+// // // console.log("🚀 ~ checkForm1(form1):", checkForm1(form1))
 
 // const checkForm2 = checker( validateFn(always(false), '出现了一个错误') )
 // checkForm2(form2)
-// // console.log("🚀 ~ checkForm2(form2):", checkForm2(form2))
+// // // console.log("🚀 ~ checkForm2(form2):", checkForm2(form2))
 
 function curry2(fun) {
   return function (secondArg) {
@@ -439,10 +439,10 @@ const withinRange = checker(
 )
 
 withinRange(10)
-// // console.log("🚀 ~ withinRange(10):", withinRange(19))
+// // // console.log("🚀 ~ withinRange(10):", withinRange(19))
 
 // _.zip([ [1, 2,3], [2,4,6]  ])
-// // console.log("🚀 ~ _.zip([ [1, 2,3], [2,4,6]  ]):", _.zip( [1, 2,3], [2,4,6]  ))  [ [1,2], [2,4], [3,6] ]
+// // // console.log("🚀 ~ _.zip([ [1, 2,3], [2,4,6]  ]):", _.zip( [1, 2,3], [2,4,6]  ))  [ [1,2], [2,4], [3,6] ]
 
 function second(arr) {
   return nth(arr, 1)
@@ -470,7 +470,7 @@ function unzip(pairs) {
 }
 
 unzip([['a', 1], ['b', 2], ['c', 3]])
-// // console.log("🚀 ~ unzip([ ['a', 1], ['b', 2], ['c', 3] ]):", unzip([ ['a', 1], ['b', 2], ['c', 3] ]))
+// // // console.log("🚀 ~ unzip([ ['a', 1], ['b', 2], ['c', 3] ]):", unzip([ ['a', 1], ['b', 2], ['c', 3] ]))
 // 126
 
 
@@ -514,7 +514,7 @@ function nexts(graph, node, ret = []) {
 }
 
 nexts(influences, 'Lisp')
-// // console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
+// // // console.log("🚀 ~ nexts(influences, 'Lisp'):", nexts(influences, 'Scheme'))
 
 // 广度优先
 // 终止条件是，该节点没有关联节点的时候停止
@@ -549,7 +549,7 @@ function depthSearch(graph, nodes, seen) {
 
 
 depthSearch(influences, ['Lisp'], [])
-// // console.log("🚀 ~ depthSearch(influences, ['Lisp'], []):", depthSearch(influences, ['Lisp'], []))
+// // // console.log("🚀 ~ depthSearch(influences, ['Lisp'], []):", depthSearch(influences, ['Lisp'], []))
 
 
 // 广度优先
@@ -575,7 +575,7 @@ function breadthSearch(graph, nodes, seen) {
 }
 
 // breadthSearch(influences, ['Lisp'], [])
-// // console.log("🚀 ~ breadthSearch(influences, ['Lisp'], []):", breadthSearch(influences, ['Lisp'], []))
+// // // console.log("🚀 ~ breadthSearch(influences, ['Lisp'], []):", breadthSearch(influences, ['Lisp'], []))
 
 
 function isEven(value) {
@@ -603,10 +603,10 @@ function andify(...preds) {
 
 // var evenNums = andify(_.isNumber, isEven)
 // evenNums(1,2)
-// // console.log("🚀 ~ evenNums(1,2):", evenNums(1,2))
+// // // console.log("🚀 ~ evenNums(1,2):", evenNums(1,2))
 
 // evenNums(2,4,6,8)
-// // console.log("🚀 ~ evenNums(2,4,6,8):", evenNums(2,4,6,8))
+// // // console.log("🚀 ~ evenNums(2,4,6,8):", evenNums(2,4,6,8))
 
 
 function orify(...preds) {
@@ -623,13 +623,13 @@ function orify(...preds) {
 
 const numberOrArray = orify(_.isNumber, _.isArray)
 // numberOrArray(1,[])
-// // console.log("🚀 ~ numberOrArray(1,[]):", numberOrArray(1,[]))
+// // // console.log("🚀 ~ numberOrArray(1,[]):", numberOrArray(1,[]))
 
 // numberOrArray('1','2')
-// // console.log("🚀 ~ numberOrArray('1',[]):", numberOrArray('1','2'))
+// // // console.log("🚀 ~ numberOrArray('1',[]):", numberOrArray('1','2'))
 
 // numberOrArray([],[1,2])
-// // console.log("🚀 ~ numberOrArray([],[1,2]):", numberOrArray([],[1,2]))
+// // // console.log("🚀 ~ numberOrArray([],[1,2]):", numberOrArray([],[1,2]))
 
 
 // 接受一个数组或者其他类型，如果还是数组就继续递归
@@ -648,7 +648,7 @@ function flat(arr) {
 }
 
 flat([1, 2], [3, 4])
-// // console.log("🚀 ~ flat([1,2], [3,4]):", flat([ [1,2], [3,4], [5,6], [ [7,8] ] ]))
+// // // console.log("🚀 ~ flat([1,2], [3,4]):", flat([ [1,2], [3,4], [5,6], [ [7,8] ] ]))
 
 // 1.终止条件 传入的值为普通对象
 // 2.解决一个问题 
@@ -677,7 +677,7 @@ const obj = {
 }
 
 // deepClone(obj)
-// // console.log("🚀 ~ deepClone(obj):", deepClone(obj))
+// // // console.log("🚀 ~ deepClone(obj):", deepClone(obj))
 
 function trampoline(fun, ...args) {
   let ret = fun.apply(null, args)
@@ -719,15 +719,65 @@ function genTake(n, gen) {
 
 const ints = generator(0, _.identity, (x) => x + 1)
 genTake(1, ints)
-console.log("🚀 ~ genTake(10, ints):", genTake(1, ints))
+// console.log("🚀 ~ genTake(10, ints):", genTake(1, ints))
 
 
 
 // ints.head
-// console.log("🚀 ~ ints.head:", ints.head)
+// // console.log("🚀 ~ ints.head:", ints.head)
 
 // ints.tail()
-// console.log("🚀 ~ ints.tail():", ints.tail().tail())
+// // console.log("🚀 ~ ints.tail():", ints.tail().tail())
 // 151
+
+const arr = [{
+  title: '标题'
+}]
+// _.chain(arr).pluck('title').tap(note)
+// console.log("🚀 ~ _.chain(obj2).pluck('title'):", _.chain(arr).pluck('title').tap(note).value())
+
+function LazyChain(obj) {
+  this._calls = []
+  this._target = obj
+}
+// 添加一个惰性函数到_calls
+LazyChain.prototype.invoke = function(methodName, ...args) {
+  this._calls.push(function(target) {
+    var meth = target[methodName]
+
+    return meth.apply(target, args)
+  })
+
+  return this
+}
+
+// 自动执行
+LazyChain.prototype.fource = function() {
+  return _.reduce(this._calls, (target, thunk)=> {
+    return thunk(target)
+  }, this._target)
+}
+
+// new LazyChain([1,2,3]).invoke('concat', [4,5,6]).fource()
+// console.log("🚀 ~ new LazyChain([1,2,3]).invoke('concat', [4,5,6]).fource():", new LazyChain([1,2,3]).invoke('concat', [4,5,6]).invoke('join').fource())
+
+function pipeline(seed, ...funcs) {
+  return _.reduce(funcs, (data, thunk)=> thunk(data), seed)
+}
+
+pipeline()
+// console.log("🚀 ~ pipeline():", pipeline([1,2,3], _.rest))
+
+// 如果是数字 直接返回数字
+// 数组就累加之后返回累加的值
+function accumulate(value) {
+  if(_.isNumber(value)) return value
+
+  if(_.isArray(value)) return _.reduce(value, (x, y)=> x + y )
+}
+
+// accumulate([1,2,3])
+console.log("🚀 ~ accumulate([1,2,3]):", accumulate([1,2,3]))
+
 
 

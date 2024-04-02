@@ -768,16 +768,46 @@ function pipeline(seed, ...funcs) {
 pipeline()
 // console.log("🚀 ~ pipeline():", pipeline([1,2,3], _.rest))
 
+function complement(fn) {
+  return function(...args) {
+    return fn.apply(null, args)
+  }
+}
+function isNotDefine(value) {
+  return _.isUndefined(value) || _.isNull(value)
+}
+const isDefine = complement(isNotDefine)
+
 // 如果是数字 直接返回数字
 // 数组就累加之后返回累加的值
 function accumulate(value) {
   if(_.isNumber(value)) return value
 
   if(_.isArray(value)) return _.reduce(value, (x, y)=> x + y )
+
+  // null 或者undefined返回0
+  if(isDefine(value)) return 0
+}
+
+// 接收多个函数
+// 返回一个函数，该函数调用时，将参数给到接收的每一个函数，如果返回值不为undefined，就返回结果
+function disptch(...funcs) {
+  return function(...args) {
+    return _.reduce(funcs, (ret, func)=> {
+      return _.isUndefined(ret) ? func.apply(null, args) : ret
+    }, undefined)
+  }
 }
 
 // accumulate([1,2,3])
-console.log("🚀 ~ accumulate([1,2,3]):", accumulate([1,2,3]))
+// console.log("🚀 ~ accumulate([1,2,3]):", accumulate([1,2,3]))
+
+const powerAdd =  disptch(
+  (val)=> _.isNumber(val) ? val : undefined,
+  (val)=> _.isArray(val) ? _.reduce(val, (x,y)=> x + y) : undefined,
+  (val)=> isNotDefine(val) ? 0 : undefined
+)
+console.log("🚀 ~ accumulate([1,2,3]):",  powerAdd(8))
 
 
 

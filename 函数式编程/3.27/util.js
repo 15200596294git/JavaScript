@@ -49,68 +49,34 @@ function viaKey(key, arg2) {
 _.find(arr2, isMale)
 // console.log("🚀 ~ _.find(arr2, isMale):", _.filter(arr2,  viaKey('sex', 0) ))
 
+// _.where(arr1, { sex: 0 })
+// console.log("🚀 ~ _.where(arr1, { sex: 0 }):", _.findWhere(arr2, { sex: 1 }))
+// _.where 通过propties查早到符合条件的所有项(返回数组)
+// _.findWhere 通过propties查早到符合条件的第一项(返回单一项)
 
 
 
-// 计算时给如果数字不合法将重置为0，目的是计算结果为NaN
 
-// 柯里化 部分函数 纯函数 pipe函数 compose函数 递归
+// 计算时给如果数字不合法将重置为0或者1(加减法为0，乘除法为1)，目的是计算结果为NaN
+const arr3 = [1,2,3,4,5,undefined,7, '8', null, {}, [], true, false]
 
-_.where(arr, { name: 'jg' })
-// // console.log("🚀 ~ _.where(arr, {name: 'jg'}):", _.pluck(arr, 'age'))
-_.map(arr, (item) => item.age)
-// // console.log("🚀 ~ _.map(arr, (item)=> item.age):", _.map(arr, (item)=> item.age))
-
-
-_.groupBy(arr, 'age')
-// console.log("🚀 ~ _.groupBy(arr, 'age'):", _.chain(arr).groupBy('age').value() )
-_.chain(arr).countBy('age').value()
-// console.log("🚀 ~ _.chain(arr).countBy('age').value():", _.chain(arr).countBy('age').value())
-
-// 设置一个对象的key为另外一个值
-// 另外一个值待定
-function setByKey(k) {
-  return function (obj, nVal) {
-    obj[k] = nVal
+function intercept(fn, defaults) {
+  return function(...args) {
+    const afterwards = _.map(args, (arg, i)=> {
+      const afterArg = Number(arg)
+      if(!_.isNumber(afterArg) || _.isNaN(afterArg)) return defaults[i]
+      return afterArg
+    })
+    return fn.apply(null, afterwards)
   }
 }
 
-const setLoadingCompleteState = setByKey('loadingComplete')
-const obj3 = {
-  loadingComplete: 3,
-  a: { b: () => 2 }
+function add(x, y) {
+  return x + y
 }
-setLoadingCompleteState(obj3, 8)
-// console.log("🚀 ~ obj3:", obj3)
-function setStorageSync(key) {
-  return function (token) {
-    localStorage.setItem(key, token)
-    // obj3[key] = token
-  }
+function accumulation(arr) {
+  return _.reduce(arr, intercept(add, [0, 0]), 0)
 }
 
-const setToken = setStorageSync('token')
-// setToken('bbbb')
-// console.log("🚀 ~ obj3:", obj3)
-
-// _.get(obj3,['a', 'b'])
-// console.log("🚀 ~ _.get(obj3,['a', 'b']):", _.get(obj3,['a', 'b', 'c']))
-// 获取对象的key(可以嵌套)
-// 尝试执行一个值
-function tryCall(fn) {
-  return _.isFunction(fn) ? fn() : undefined
-}
-const getPath = _.partial(_.get, obj3)
-const getAndCall = _.compose(tryCall, getPath)
-// getAndCall(obj3)
-console.log("🚀 ~ getAndCall(obj3):", getAndCall(['privacydia', 'open']))
-
-
-
-
-
-
-
-
-
-
+add(arr3)
+console.log("🚀 ~ add(arr3):", accumulation(arr3))

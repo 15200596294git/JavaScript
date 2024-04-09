@@ -140,16 +140,16 @@ var generateParenthesis = function (n) {
 
   // 接受一个括号数组
   // 
-  const myFilter = (arr)=> {
+  const myFilter = (arr) => {
     const stack = []
     const data = arr.slice()
-    while(data.length) {
+    while (data.length) {
       const s = data.shift()
-      if(s === '(') {
+      if (s === '(') {
         stack.unshift(')')
       }
-      if(s === ')') {
-        if(!stack.length) return false
+      if (s === ')') {
+        if (!stack.length) return false
         stack.shift()
       }
     }
@@ -174,7 +174,7 @@ var generateParenthesis = function (n) {
       myFilter(first)
       // console.log("🚀 ~ myFilter(first):", myFilter(first))
       // console.log("🚀 ~ myFilter(first):", first)
-      if(!myFilter(first)) {
+      if (!myFilter(first)) {
         continue
       }
       if (!second.length) {
@@ -183,7 +183,7 @@ var generateParenthesis = function (n) {
         }
       } else {
         second.forEach((item, i) => {
-          const se =  second.slice()
+          const se = second.slice()
           se.splice(i, 1)
           // debugger
           stack.unshift(
@@ -196,14 +196,14 @@ var generateParenthesis = function (n) {
       }
     }
 
-      
+
 
   }
   recursion(brackets)
   // ret
   // // console.log("🚀 ~ ret:", ret)
 
-  
+
   // 验证组合是否可用
   return ret
   // return ret.filter((str) => {
@@ -227,4 +227,36 @@ var generateParenthesis = function (n) {
 
 
 // generateParenthesis(3)
-console.log("🚀 ~ generateParenthesis(3):", generateParenthesis(5))
+// console.log("🚀 ~ generateParenthesis(3):", generateParenthesis(5))
+
+// 二分查找
+var maximumCount = function (nums) {
+  const searchVal = (value, nums) => {
+    let i = 0, l = nums.length - 1
+    let m
+    while (i >= 0 && l <= nums.length - 1 && i <= l) {
+      if (i === l) return i
+
+      m = Math.floor((l - i) / 2) + i
+      let cure = nums[m]
+      if (cure < value) {
+        i = m + 1
+      } else if (cure > value) {
+        l = m - 1
+      } else {
+        return m
+      }
+    }
+
+    return m
+  }
+
+  const index1 = searchVal(0, nums)
+  const index2 = searchVal(1, nums)
+  debugger
+  return Math.max(index1, nums.length - index2)
+};
+
+// searchVal(0, [-3,-2,-1,0,0,1,2] )
+console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", maximumCount([-1563,-236,-114,-55,427,447,687,752,1021,1636]))
+

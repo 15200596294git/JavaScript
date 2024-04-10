@@ -244,18 +244,18 @@ var maximumCount = function (nums) {
     return m
   }
 };
-const binarySearch = (arr)=> {
+const binarySearch = (arr, value)=> {
   let f = 0, l = arr.length - 1, m
   while(f !== l) {
     m = Math.floor((l - f) / 2) + f
     // debugger
     const cure = arr[m]
-    if(cure > 0) l = m - 1
-    if(cure < 0) f = m + 1
+    if(cure >  value) l = m - 1
+    if(cure < value) f = m + 1
   }
-  return arr.length - (l + 1)
+  return arr[l]
 }
 
 // searchVal(0, [-3,-2,-1,0,0,1,2] )
-console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636]))
+console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636], 0 ))
 

@@ -230,33 +230,32 @@ var generateParenthesis = function (n) {
 // console.log("🚀 ~ generateParenthesis(3):", generateParenthesis(5))
 
 // 二分查找
+// 找出第一个小于0但不是0的数
+// 找出第一个大于0但不是0的数
 var maximumCount = function (nums) {
-  const searchVal = (value, nums) => {
-    let i = 0, l = nums.length - 1
-    let m
-    while (i >= 0 && l <= nums.length - 1 && i <= l) {
-      if (i === l) return i
-
-      m = Math.floor((l - i) / 2) + i
-      let cure = nums[m]
-      if (cure < value) {
-        i = m + 1
-      } else if (cure > value) {
-        l = m - 1
-      } else {
-        return m
-      }
+  const binarySearch = (arr)=> {
+    let f = 0, l = nums.length - 1, m = Math.floor(l / f) + f
+    while(f !== l) {
+      const cure = arr[num]
+      if(cure > 0) l = m - 1
+      if(cure < 0) f = m + 1
     }
 
     return m
   }
-
-  const index1 = searchVal(0, nums)
-  const index2 = searchVal(1, nums)
-  debugger
-  return Math.max(index1, nums.length - index2)
 };
+const binarySearch = (arr)=> {
+  let f = 0, l = arr.length - 1, m
+  while(f !== l) {
+    m = Math.floor((l - f) / 2) + f
+    // debugger
+    const cure = arr[m]
+    if(cure > 0) l = m - 1
+    if(cure < 0) f = m + 1
+  }
+  return arr.length - (l + 1)
+}
 
 // searchVal(0, [-3,-2,-1,0,0,1,2] )
-console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", maximumCount([-1563,-236,-114,-55,427,447,687,752,1021,1636]))
+console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636]))
 

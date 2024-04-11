@@ -257,5 +257,24 @@ const binarySearch = (arr, value)=> {
 }
 
 // searchVal(0, [-3,-2,-1,0,0,1,2] )
-console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636], 0 ))
+// console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636], 0 ))
+
+
+function recur(n) {
+  // n为1时返回
+  // 每次将 n加上n-1的递归调用
+  // recur(n-1)
+  if(n === 1) return 1
+}
+
+function fib(n) {
+  if(n === 0) return 0
+  // n为1或者2时返回1
+  // 把n拆解为 fib(n -1) + fib(n-2),直到n为1或者2时才返回
+  // 每次把n变得更小
+  if(n === 1 || n === 2) return 1
+  return fib(n - 1) + fib(n - 2)
+}
+// fib(3)
+console.log("🚀 ~ fib(3):", fib(0))
 

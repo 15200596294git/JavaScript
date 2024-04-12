@@ -354,23 +354,39 @@ var reverseList = function(head, headPrev = null) {
 };
 
 var partition = function(head, x) {
-  if(head === null) return head
-  // 每次找出符合条件的节点，并返回它
-  // head为null时终止
-  // 每次找出符合条件的节点，并返回它
-  // 将head.next传入下一次的调用
-  // 如果没找到符合条件的应该直接返回head
-  let p = head
-  while(p !== null) {
-    if(p.val < x) break
-    p = p.next 
-  }
-  if(p === null) return head
-  if(p !== head) {
-    
-  }
-  p.next = partition(head.next, x) 
-  return p
+  // 每次找到一个小值 并返回最小值
+  // 找不到比x小的值的时候直接结束，直接返回head.next
 
+  // let prev = null
+  // let p = head
+  // while(p !== null) {
+  //   if(p.val < x) break
+  //   prev = p
+  //   p = p.next
+  // }
+  // if(p === null) return head
 
+  // if(prev!== null) prev.next = p.next
+
+  // p.next = partition(p === head ? head.next : head, x) 
+  // return p
+
+  let small = new ListNode(0)
+  let p1 = small
+  let large = new ListNode(0)
+  let p2 = large
+  while(head !== null) {
+    if(head.val < x ) {
+      p1.next = head
+      p1 = p1.next
+    } else {
+      p2.next = head
+      p2 = p2.next
+    }
+    head = head.next
+  }
+
+  p2.next = null // 防止出现环
+  p1.next = large.next
+  return small.next
 };

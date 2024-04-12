@@ -172,8 +172,8 @@ var generateParenthesis = function (n) {
     while (stack.length) {
       const [first, second] = stack.shift()
       myFilter(first)
-      // console.log("🚀 ~ myFilter(first):", myFilter(first))
-      // console.log("🚀 ~ myFilter(first):", first)
+      // // console.log("🚀 ~ myFilter(first):", myFilter(first))
+      // // console.log("🚀 ~ myFilter(first):", first)
       if (!myFilter(first)) {
         continue
       }
@@ -201,7 +201,7 @@ var generateParenthesis = function (n) {
   }
   recursion(brackets)
   // ret
-  // // console.log("🚀 ~ ret:", ret)
+  // // // console.log("🚀 ~ ret:", ret)
 
 
   // 验证组合是否可用
@@ -227,7 +227,7 @@ var generateParenthesis = function (n) {
 
 
 // generateParenthesis(3)
-// console.log("🚀 ~ generateParenthesis(3):", generateParenthesis(5))
+// // console.log("🚀 ~ generateParenthesis(3):", generateParenthesis(5))
 
 // 二分查找
 // 找出第一个小于0但不是0的数
@@ -257,7 +257,7 @@ const binarySearch = (arr, value)=> {
 }
 
 // searchVal(0, [-3,-2,-1,0,0,1,2] )
-// console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636], 0 ))
+// // console.log("🚀 ~ searchVal(0, [-3,-2,-1,0,0,1,2] ):", binarySearch([-1563,-236,-114,-55,427,447,687,752,1021,1636], 0 ))
 
 
 function recur(n) {
@@ -276,5 +276,91 @@ function fib(n) {
   return fib(n - 1) + fib(n - 2)
 }
 // fib(3)
-console.log("🚀 ~ fib(3):", fib(0))
+// console.log("🚀 ~ fib(3):", fib(0))
 
+var mergeTwoLists = function(list1, list2,) {
+  // 两个链表都为空时返回
+  // 比较当前节点的值，谁小就加入到新的节点并且 next
+  // 每次使节点向后移一位
+  // let head = new ListNode(0)
+  // let p1 = list1
+  // let p2 = list2
+  // let p3 = head
+  // while(p1 && p2) {
+  //   if(p1.val <= p2.val) {
+  //     p3.next = p1
+  //     p1 = p1.next
+  //   } else {
+  //     p3.next = p2
+  //     p2 = p2.next
+  //   }
+  //   p3 = p3.next
+  // }
+  // p3.next = p1 === null ? p2 : p1
+
+  // return head.next
+
+  // l1或者l2为null时终止
+  // 传入两个节点，把当前小的节点连接到下一个节点，并返回当前节点
+  // 将val值小的节点传入下一个函数调用
+  // 想当前每次调用都会返回值比较小的那个节点，并且将这个节点连接到下一个比较小的节点
+  if(list1 === null) {
+    return list2
+  } else if(list2 === null) {
+    return list1
+  } else if(list1.val <= list2.val) {
+    list1.next = mergeTwoLists(list1.next, list2) 
+    return list1
+  } else {
+    list2.next = mergeTwoLists(list1, list2.next)
+    return list2
+  }
+};
+
+var reverseList = function(head, headPrev = null) {
+  // const stack = []
+  // while(head) {
+  //   stack.unshift(head)
+  //   head = head.next
+  // }
+  // let ret = new ListNode(0)
+  // let p = ret
+  // while(stack.length){
+  //   const node = stack.shift()
+  //   p.next = node
+  //   p = p.next
+  // }
+  // p.next = null
+  // return ret.next
+
+  // 递归
+  // head.next === null 时终止
+  // 每次将head.next指向head
+  // head.next传入下一次的调用
+  if(head === null) return headPrev
+  const next = head.next
+  head.next = headPrev
+  return reverseList(next, head)
+};
+
+var partition = function(head, x) {
+  if(head === null) return head
+  // 每次找出符合条件的节点，并返回它
+  // head为null时终止
+  // 每次找出符合条件的节点，并返回它
+  // 将head.next传入下一次的调用
+  // 如果没找到符合条件的应该直接返回head
+  let p = head
+  while(p !== null) {
+    if(p.val < x) break
+    p = p.next 
+  }
+  if(p === null) return head
+  if(p !== head) {
+    
+  }
+  p.next = partition(head.next, x) 
+  return p
+
+
+};

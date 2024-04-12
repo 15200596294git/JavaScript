@@ -277,6 +277,16 @@ function fib(n) {
 }
 // fib(3)
 // console.log("🚀 ~ fib(3):", fib(0))
+// 链表
+class ListNode {
+  constructor(val = 0, next = null) {
+    this.val = val
+    this.next = next
+  }
+}
+var l = new ListNode(1, new ListNode(2))
+// l
+console.log("🚀 ~ l:", l.next)
 
 var mergeTwoLists = function(list1, list2,) {
   // 两个链表都为空时返回

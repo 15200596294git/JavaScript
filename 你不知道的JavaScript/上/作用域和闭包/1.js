@@ -22,23 +22,43 @@
 
 
 // with
-function foo(obj) {
-  with(obj) {
-    a = 2
-  }
-}
+// function foo(obj) {
+//   with(obj) {
+//     a = 2
+//   }
+// }
 
-var obj1 = {
-  a: 1
-}
-var obj2 = {
-  b: 2
-}
+// var obj1 = {
+//   a: 1
+// }
+// var obj2 = {
+//   b: 2
+// }
 
-// foo(obj1)
-// obj2中没有a属性，所以当在函数foo中的with语句中时，会逐级查找a的LHS引用，发现找不到
-// 就会在全局新建一个，而不是修改传入的obj的属性,因此意外的创建了一个全局变量
-foo(obj2)
-// console.log(obj1);
-console.log(obj2);
-// console.log(a);
+// // foo(obj1)
+// // obj2中没有a属性，所以当在函数foo中的with语句中时，会逐级查找a的LHS引用，发现找不到
+// // 就会在全局新建一个，而不是修改传入的obj的属性,因此意外的创建了一个全局变量
+// foo(obj2)
+// // console.log(obj1);
+// console.log(obj2);
+// // console.log(a);
+
+// 函数表达式和和函数声明
+// 这里的function handle是一个函数表达式
+// 所以在全局作用域下无法对它进行访问
+// setTimeout(function handle() {
+
+// }, 1000);
+// handle()
+
+
+// IIFE
+// IIFE函数会先执行，并且接受一个参数为函数
+// 然后再调用这个函数，这个函数也是一个函数表达式，也不会在全局作用域下
+(function IIFE(def) {
+  console.log('IIFE');
+  def(2)
+})(function def(a) {
+  console.log('def')
+  console.log(a,'a')
+})

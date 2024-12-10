@@ -55,10 +55,30 @@
 // IIFE
 // IIFE函数会先执行，并且接受一个参数为函数
 // 然后再调用这个函数，这个函数也是一个函数表达式，也不会在全局作用域下
-(function IIFE(def) {
-  console.log('IIFE');
-  def(2)
-})(function def(a) {
-  console.log('def')
-  console.log(a,'a')
-})
+// (function IIFE(def) {
+//   console.log('IIFE');
+//   def(2)
+// })(function def(a) {
+//   console.log('def')
+//   console.log(a,'a')
+// })
+
+
+// {
+//   // console.log(a)
+//   const a = 1
+//   a = 2
+// }
+
+// 这是函数表达式
+// foo() // 此时无法调用，因为表达式不会提升
+// var foo = function () {}
+// 这是函数声明，整个函数都会提升到当前作用域的最上方，也就是全局作用域
+// foo()
+// function foo() {
+//   console.log('foo')
+// }
+
+var foo = function bar() {
+  console.log('bar', bar)
+}

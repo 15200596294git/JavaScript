@@ -85,12 +85,59 @@
 
 
 // 经典循环+定时器
-for(var i = 1; i <= 5; i ++) {
-  (function(i) {
-    // console.log(j);
+// for(var i = 1; i <= 5; i ++) {
+//   (function(i) {
+//     // console.log(j);
     
-    setTimeout(function(){
-      console.log(i)
-    }, 500 * i)
-  })(i)
-}
+//     setTimeout(function(){
+//       console.log(i)
+//     }, 500 * i)
+//   })(i)
+// }
+
+// let+for循环
+// for(let i = 1; i <=5; i++) {
+//   setTimeout(() => {
+//     console.log(i);
+//   }, 1000 * i);
+// }
+
+var MyModules  = (function () {
+  var myModules = {}
+
+  function define(name, deps = [], impl = function() {}) {
+    const moduleDeps = deps.map(dep=> myModules[dep])  
+    myModules[name] = impl.apply(impl, moduleDeps)
+  }
+  function get(name) {
+    return myModules[name]
+  }
+
+  return {
+    define,
+    get
+  }
+})()
+
+var foo = MyModules.define('foo', [], function() {
+  function hello(who) {
+    console.log(`你好,${who}`);
+    return `你好,${who}`
+  }
+
+  return {
+    hello
+  }
+})
+var awesome = MyModules.define('awesome', ['foo'], function(foo) {
+  function say() {
+   console.log(foo.hello('jg').toUpperCase());
+  }
+
+  return {
+    say
+  }
+})
+
+// console.log( MyModules.get('foo').hello('jg'));
+MyModules.get('awesome').say()

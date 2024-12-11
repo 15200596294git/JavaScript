@@ -79,6 +79,18 @@
 //   console.log('foo')
 // }
 
-var foo = function bar() {
-  console.log('bar', bar)
+// var foo = function bar() {
+//   console.log('bar', bar)
+// }
+
+
+// 经典循环+定时器
+for(var i = 1; i <= 5; i ++) {
+  (function(i) {
+    // console.log(j);
+    
+    setTimeout(function(){
+      console.log(i)
+    }, 500 * i)
+  })(i)
 }

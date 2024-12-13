@@ -107,15 +107,59 @@
 
 
 // 被忽略的this
-function foo(value) {
-  this.a = value
-}
-const obj = {
-  foo
-}
+// function foo(value) {
+//   this.a = value
+// }
+// const obj = {
+//   foo
+// }
 // 当使用obj.foo调用函数时，foo函数内的this指向的是obj
 // 但是如果在后面再加上一个call，并且把this指向到null，这时会把原本指向obj的this变成this的默认规则(window或者undefined)
 // 也就是说这个应该不叫忽略，而是通过call、apply、bind把this修改为默认规则
-obj.foo.call(null, 3)
-console.log(obj.a);
-console.log(a);
+// obj.foo.call(null, 3)
+// console.log(obj.a);
+// console.log(a);
+
+// 软绑定
+// 调用softBind给函数绑定this，如果函数通过默认调用规则，那么就应用该this
+// 否则如果函数的this是隐式绑定或者显示绑定，会覆盖原有的
+if(!Function.prototype.softBind) {
+  Function.prototype.softBind = function(obj, ...args) {
+    const fn = this
+    
+    const bound = function (...args2) {
+      const this2 = (!this || this === globalThis) ? obj : this
+      fn.apply(this2, args.concat(args2))
+    }
+    bound.prototype = Object.create(fn.prototype)
+    return bound
+  }
+}
+
+function foo(value) {
+  console.log("🚀 ~ foo ~ this.a:", this.a, value)
+}
+
+var obj = {
+  a: 0,
+  foo
+}
+var obj2 = {
+  a: 2,
+}
+var obj3 = {
+  a: 3,
+}
+
+const bar = foo.softBind(obj)
+// bar('jg') // 0
+
+// obj2.bar = bar
+// obj2.bar('dg') // 2
+
+// bar.call(obj3, 'hg') // 3
+
+// var bar2 = foo.softBind(obj, 'jg') // 0 jg
+// bar2()
+// bar2.prototype
+// console.log("🚀 ~ bar2.prototype:", bar2.prototype)

@@ -104,3 +104,4 @@ Object.defineProperty(obj, 'a', {
 delete obj.a
 console.log(obj.a);
 console.log(Object.getOwnPropertyDescriptor(obj, 'a'))
+ 

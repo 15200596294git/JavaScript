@@ -188,7 +188,7 @@ obj.b = 2
 console.log("🚀 ~ obj:", obj.b)
 
 // 会报错，因为writable为false
-obj.a = 4
+// obj.a = 4
 
 
 

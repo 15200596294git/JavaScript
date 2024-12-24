@@ -73,4 +73,35 @@ for(let i = 0; i < 20; i++) {
   })
 }
 
-console.log(farm.getCowsOfAlive().length)
+// console.log(farm.getCowsOfAlive().length)
+
+function mixin(sourceObj, targetObj) {
+  for(let k in sourceObj) {
+    if(!(k in targetObj)) {
+      targetObj[k] = sourceObj[k]
+    }
+  }
+
+  return targetObj
+}
+
+var Vehicle = {
+  engines: 1,
+  ignition() {
+    console.log('Turning on my engine');
+  },
+  drive() {
+    this.ignition()
+    console.log('Steering and moving forward');
+  }
+}
+
+var Car = mixin(Vehicle, {
+  wheels: 4,
+  drive() {
+    Vehicle.drive.call(this)
+    console.log('Rolling on all' + this.wheels + 'wheels!');
+  }
+})
+
+console.log(Car);

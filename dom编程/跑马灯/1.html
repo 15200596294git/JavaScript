@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跑马灯</title>
+</head>
+<body>
+
+  <div class="mx-auto w-560px h-1000px b b-solid rounded-4px overflow-hidden">
+    <div id="red-block" class="w-1000px h-50px bg-red-400 relative left-0px" style="left:0;">
+      这里会有文字这里会有文字这里会有文字这里会有文字这里会有文字这里会有文字这里会有文字这里会有文字
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script >
+    // document.addEventListener('', ()=> {
+    setTimeout(() => {
+      
+      const redBlock = document.getElementById('red-block')
+  
+      const wrap = redBlock.parentElement
+      document.body.loa
+      // 用时
+      const duration = 5
+      function move() {
+        // debugger
+        //  redBlock.context.getBoundingClientRect().right
+        const redClientWidth = redBlock.clientWidth
+        const clientWidth = wrap.clientWidth
+        // debugger
+        const distance = redClientWidth - clientWidth
+        console.log("🚀 ~ move ~ distance:", distance)
+  
+        const style = getComputedStyle(redBlock)
+        const leftNumber = Number(style.left.split('px')[0])
+        // 本次需要更新的值
+        const cureLeft = leftNumber - (distance / duration / 60)
+        redBlock.style.left = (Math.abs(cureLeft) > distance ? -distance : cureLeft)  + 'px'
+        // console.log("🚀 ~ move ~ (cureLeft > distance ? distance : cureLeft):", (cureLeft > distance ? distance : cureLeft))
+        if(Math.abs(leftNumber) < distance) {
+          requestAnimationFrame(move)
+        }
+      }
+      requestAnimationFrame(move)
+    }, 800);
+
+    // })
+    // move()
+    
+    
+
+    // 实现一个跑马灯的类
+    // 使用
+    class Marquee {
+      constructor(target, options) {
+        this.target = target
+
+        this.text = options.text
+        this.duration = options.duration
+        this.start()
+      }
+      start() {
+
+      }
+    }
+
+    // 传入容器元素和文本
+    // const marquee = new Marquee(target, {
+    // text: '我是跑马灯文字'
+    // })
+  </script>
+</body>
+</html>

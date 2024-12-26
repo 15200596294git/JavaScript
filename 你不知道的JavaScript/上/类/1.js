@@ -85,23 +85,52 @@ function mixin(sourceObj, targetObj) {
   return targetObj
 }
 
-var Vehicle = {
-  engines: 1,
-  ignition() {
-    console.log('Turning on my engine');
-  },
-  drive() {
-    this.ignition()
-    console.log('Steering and moving forward');
-  }
+// var Vehicle = {
+//   engines: 1,
+//   ignition() {
+//     console.log('Turning on my engine');
+//   },
+//   drive() {
+//     this.ignition()
+//     console.log('Steering and moving forward');
+//   }
+// }
+
+// var Car = mixin(Vehicle, {
+//   wheels: 4,
+//   drive() {
+//     Vehicle.drive.call(this)
+//     console.log('Rolling on all' + this.wheels + 'wheels!');
+//   }
+// })
+
+// console.log(Car);
+
+function Vehicle() {
+  this.engines = 1
+}
+Vehicle.prototype.ignition = function() {
+  console.log('Turning on my engine');
+}
+Vehicle.prototype.drive = function() {
+  this.ignition()
+  console.log('Steering and moving forward');
 }
 
-var Car = mixin(Vehicle, {
-  wheels: 4,
-  drive() {
-    Vehicle.drive.call(this)
-    console.log('Rolling on all' + this.wheels + 'wheels!');
-  }
-})
+function Car() {
+  var car = new Vehicle()
+  // 订制
+  car.wheels = 4
 
-console.log(Car);
+  var vehDrive = car.drive
+
+  // 重写drive
+  car.drive = function() {
+    vehDrive.call(this)
+  }
+
+  return car
+}
+
+const car = new Car()
+car.drive()

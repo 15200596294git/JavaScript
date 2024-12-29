@@ -132,5 +132,83 @@ function Car() {
   return car
 }
 
-const car = new Car()
-car.drive()
+// const car = new Car()
+// car.drive()
+
+// function Foo() {}
+// var f1 = new Foo()
+
+/**
+ * Foo是构造函数
+ * Foo有一个prototype属性
+ * Foo的prototype属性有一个constructor属性，constructor指向构造函数本身，当前就是Foo
+ * 
+ * f1是Foo的实例
+ * f1的原型对象指向其构造函数的prototype, f1.__proto__ === Foo.prototype
+ * f1会'继承'Foo.prorotype中的属性 [[prorotype]]原型链
+ * f1.constructor === Foo.prototype.constructor
+*/
+// console.log("🚀 ~ prototype, f1.__proto__ === Foo.prorotype:", f1.__proto__ === Foo.prototype)
+// console.log("🚀 ~ f1.constructor ==== Foo.prototype.constructor:", f1.constructor === Foo.prototype.constructor)
+
+// 如果构造函数的prototype指向发生变化
+// 那么变化前和变化后所创建的示例的[[prototype]]指向也是不一样的
+// 不过这个应该是显而易见的,因为其是引用,这相当于直接改变了引用,所以一般情况下不推荐
+// 可以通过Foo.prorotype.a = 2 这种方法来修改或者添加prototype对象属性的值
+// function Foo() {}
+// Foo.prototype = {
+//   constructor: Foo,
+//   a: 1
+// }
+
+// var f1 = new Foo()
+// console.log("🚀 ~ f1.a:", f1.a)
+
+// Foo.prototype = {
+//   constructor: Foo,
+//   a: 2,
+//   b:3
+// }
+
+// var f2 = new Foo()
+// console.log("🚀 ~ f1.a:", f1.a)
+// console.log("🚀 ~ f2.a:", f2.a)
+
+
+// function Foo() {}
+// Foo.prototype = {
+//   constructor: Foo,
+//   a: 1
+// }
+
+// var f1 = new Foo()
+// console.log("🚀 ~ f1.a:", f1.a)
+
+// Foo.prototype.a = 2
+// Foo.prototype.b = 3
+// var f2 = new Foo()
+
+// console.log("🚀 ~ f1.a:", f1.a)
+// console.log("🚀 ~ f2.a:", f2.a)
+
+// function Foo() {
+
+// }
+// 每个函数都会有一个prototype属性,记住这个prototype只是一个普通属性,虽然它叫prototype
+// 然后这个prototype属性的值默认是一个对象,对象里面有一个属性叫做constructor
+// 这个constructor也就是构造函数,也就指向函数本身
+// console.log("🚀 ~ Foo:", Reflect.ownKeys(Foo.prototype))
+
+
+// 所有的函数都可以看作是new Function()的实例，那么
+// Foo.__proto__ === Function.prototype
+// Function.__proto__ === Function.prototype
+
+// Function.prototype作为一个对象，它肯定是由Object实例化得来的
+// Function.prototype.__proto__ === Object.prototype
+// Object再往上就是null了
+// Object.prototype.__proto__ === null
+// Object也有自己的__proto__, 因为Object是一个函数，根据前面所得
+// Object.__proto__ === Function.prototype
+
+
